@@ -66,9 +66,7 @@ spotless {
 // git pre-commit hook task 설정
 
 tasks.register("addGitPreCommitHook", Copy) {
-
-    from 'scripts/pre-commit'
-
+    from './scripts/pre-commit', './scripts/prepare-commit-msg'
     into '.git/hooks'
 
 }
