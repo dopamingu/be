@@ -20,9 +20,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Apply Spotless
-        run: |
-          ./gradlew spotlessApply
       - name: Checkstyle
         run: |
           ./gradlew spotlessCheck

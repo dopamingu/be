@@ -2,7 +2,7 @@
 BRANCH_NAME=$(git symbolic-ref --short HEAD)
 echo BRANCH_NAME : "$BRANCH_NAME"
 
-# 브랜치 이름에서 cmc-숫자 에 해당하는 문자열을 추출하여 Jira id 에 저장
+# 브랜치 이름에서 cmc-숫자 에 해당하는 문자열을 추출하여 issue id 에 저장
 ISSUE_ID=$(echo "${BRANCH_NAME}" | grep -o '^cmc-[0-9]*')
 echo Issue id : "$ISSUE_ID"
 
