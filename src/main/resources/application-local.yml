@@ -1,0 +1,26 @@
+spring:
+  config:
+    import:
+      file:env.properties
+    activate:
+      on-profile: local
+
+  datasource:
+    #    url: ${H2_DATASOURCE_URL}
+    url: ${LOCAL_DATASOURCE_URL}
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
