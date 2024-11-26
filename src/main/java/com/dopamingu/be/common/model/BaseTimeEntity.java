@@ -18,7 +18,5 @@ public class BaseTimeEntity {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    @LastModifiedDate private LocalDateTime updatedAt;
 }
-
