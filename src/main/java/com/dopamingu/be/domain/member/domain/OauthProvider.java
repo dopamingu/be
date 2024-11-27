@@ -1,4 +1,4 @@
-package com.dopamingu.be.member.domain;
+package com.dopamingu.be.domain.member.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

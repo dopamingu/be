@@ -1,4 +1,4 @@
-package com.dopamingu.be.common.model;
+package com.dopamingu.be.domain.common.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

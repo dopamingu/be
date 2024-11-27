@@ -1,4 +1,4 @@
-package com.dopamingu.be.global.config;
+package com.dopamingu.be.domain.global.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

@@ -1,6 +1,6 @@
-package com.dopamingu.be.member.domain;
+package com.dopamingu.be.domain.member.domain;
 
-import com.dopamingu.be.common.model.BaseTimeEntity;
+import com.dopamingu.be.domain.common.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
