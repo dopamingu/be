@@ -25,9 +25,8 @@ public class JwtTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     /**
-     * 회원 ID를 사용자명으로, 비밀번호는 빈 값으로 설정한 UserDetails 객체 생성
-     * 생성한 UserDetails 객체, null 자격 증명, 권한 정보를 사용해 UsernamePasswordAuthenticationToken 생성
-     * 만든 인증 토큰을 SecurityContextHolder에 설정
+     * 회원 ID를 사용자명으로, 비밀번호는 빈 값으로 설정한 UserDetails 객체 생성 생성한 UserDetails 객체, null 자격 증명, 권한 정보를 사용해
+     * UsernamePasswordAuthenticationToken 생성 만든 인증 토큰을 SecurityContextHolder에 설정
      *
      * @param memberId : member에 id 체번을 작성
      */
