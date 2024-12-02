@@ -3,7 +3,7 @@
 targetFiles=$(git diff --staged --name-only)
 
 echo "Apply Spotless.."
-./gradlew spotlessApply
+./gradlew spotlessCheck
 
 # Add files to stage spotless applied
 for file in $targetFiles; do
