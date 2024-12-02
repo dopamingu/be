@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
-
     private static final String DEFAULT_USERNAME = "NICKNAME_NOT_REGISTERED";
     private final KakaoService kakaoService;
     private final NaverService naverService;
@@ -42,7 +41,7 @@ public class AuthService {
         OidcUser oidcUser = idTokenVerifier.getOidcUser(idToken);
 
         // oauthInfo 생성하기
-        OauthInfo oauthInfo = buildOicdInfo(oidcUser, oauthProvider);
+        OauthInfo oauthInfo = buildOicdInfo(oidcUser);
 
         // 기존 회원가입 여부 확인하기 -> 회원가입되지 않는다면 DB에 저장
         Member member = getMemberByOidcInfo(oauthInfo);
@@ -71,7 +70,7 @@ public class AuthService {
         return getLoginResponse(member);
     }
 
-    private OauthInfo buildOicdInfo(OidcUser oidcUser, OauthProvider oauthProvider) {
+    private OauthInfo buildOicdInfo(OidcUser oidcUser) {
         return OauthInfo.fromKakao(oidcUser);
     }
 
