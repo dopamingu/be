@@ -6,6 +6,14 @@ oauth:
       redirectUri: ${KAKAO_CLIENT_REDIRECT_URI}
       grantType: ${KAKAO_CLIENT_GRANT_TYPE}
       admin: ${KAKAO_CLIENT_ADMIN}
+
+  naver:
+    client:
+      id: ${NAVER_CLIENT_ID}
+      secret: ${NAVER_CLIENT_SECRET}
+      redirectUri: ${NAVER_CLIENT_REDIRECT_URI}
+      grantType: ${NAVER_CLIENT_GRANT_TYPE}
+
 jwt:
   access-token-secret: ${JWT_ACCESS_TOKEN}
   refresh-token-secret: ${JWT_REFRESH_TOKEN}

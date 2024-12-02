@@ -4,7 +4,6 @@ import com.dopamingu.be.domain.auth.application.AuthService;
 import com.dopamingu.be.domain.auth.dto.TokenPairResponse;
 import com.dopamingu.be.domain.auth.dto.TokenRefreshRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +13,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/login")
-    public TokenPairResponse memberOauthLogin(
-            @RequestParam String code, HttpServletResponse response)
+    @GetMapping("/login/kakao")
+    public TokenPairResponse memberOauthLogin(@RequestParam String code)
             throws JsonProcessingException {
-        return authService.socialLogin(code);
+        return authService.kakaoLogin(code, "kakao");
+    }
+
+    @GetMapping("/login/naver")
+    public TokenPairResponse memberOauthLogin(@RequestParam String code, @RequestParam String state)
+            throws JsonProcessingException {
+        return authService.naverLogin(code, state, "naver");
     }
 
     @PostMapping("/refresh")

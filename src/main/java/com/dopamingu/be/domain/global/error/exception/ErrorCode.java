@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     SAMPLE_ERROR(HttpStatus.BAD_REQUEST, "DP4000", "Sample Error Message"),
-    NOT_ALLOWED_SUBLEVEL(HttpStatus.BAD_REQUEST, "DP4001", "아직 업데이트 할 수 없는 양육 단계입니다."),
+    NOT_EXISTING_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "DP4001", "존재하지 않는 소셜로그인 플랫폼입니다."),
 
     EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "DP4010", "만료된 JWT 토큰입니다."),
     ID_TOKEN_VERIFICATION_FAILED(HttpStatus.UNAUTHORIZED, "DP4011", "ID 토큰 검증에 실패했습니다."),
