@@ -1,6 +1,7 @@
 package com.dopamingu.be.domain.auth.controller;
 
 import com.dopamingu.be.domain.auth.application.AuthService;
+import com.dopamingu.be.domain.auth.controller.docs.AuthControllerDocs;
 import com.dopamingu.be.domain.auth.dto.TokenPairResponse;
 import com.dopamingu.be.domain.auth.dto.TokenRefreshRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthControllerDocs {
     private final AuthService authService;
 
     @GetMapping("/login/kakao")
