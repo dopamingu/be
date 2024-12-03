@@ -16,7 +16,9 @@ public enum ErrorCode {
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "DP4013", "시큐리티 인증 정보를 찾을 수 없습니다."),
     MISSING_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "DP4014", "토큰 정보가 존재하지 않습니다."),
 
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4040", "해당 회원을 찾을 수 없습니다.");
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4040", "해당 회원을 찾을 수 없습니다."),
+    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DP500", "서버 에러가 발생했습니다.");
 
     private final HttpStatus status;
     private final String errorCode;
