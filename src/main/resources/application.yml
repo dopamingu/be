@@ -3,3 +3,5 @@ spring:
     name: dopamingu
   profiles:
     active: local
+    include:
+      - security
