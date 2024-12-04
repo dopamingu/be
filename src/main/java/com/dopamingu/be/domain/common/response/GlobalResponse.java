@@ -20,19 +20,19 @@ public class GlobalResponse {
 
     public static GlobalResponse success(int status, Object data) {
         return GlobalResponse.builder()
-            .success(true)
-            .status(status)
-            .data(data)
-            .timestamp(LocalDateTime.now())
-            .build();
+                .success(true)
+                .status(status)
+                .data(data)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
     public static GlobalResponse fail(int status, ErrorResponse errorResponse) {
         return GlobalResponse.builder()
-            .success(false)
-            .status(status)
-            .data(errorResponse)
-            .timestamp(LocalDateTime.now())
-            .build();
+                .success(false)
+                .status(status)
+                .data(errorResponse)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 }

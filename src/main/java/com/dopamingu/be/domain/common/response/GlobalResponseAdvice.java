@@ -20,14 +20,14 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(
-        Object body,
-        MethodParameter returnType,
-        MediaType selectedContentType,
-        Class selectedConverterType,
-        ServerHttpRequest request,
-        ServerHttpResponse response) {
+            Object body,
+            MethodParameter returnType,
+            MediaType selectedContentType,
+            Class selectedConverterType,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
         HttpServletResponse servletResponse =
-            ((ServletServerHttpResponse) response).getServletResponse();
+                ((ServletServerHttpResponse) response).getServletResponse();
         int status = servletResponse.getStatus();
         HttpStatus resolve = HttpStatus.resolve(status);
         if (resolve == null || body instanceof String) {

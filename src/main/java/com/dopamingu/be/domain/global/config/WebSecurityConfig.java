@@ -25,8 +25,8 @@ public class WebSecurityConfig {
         defaultFilterChain(http);
 
         http.authorizeHttpRequests(
-            (request) ->
-                request.requestMatchers("/**").permitAll().anyRequest().authenticated());
+                (request) ->
+                        request.requestMatchers("/**").permitAll().anyRequest().authenticated());
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

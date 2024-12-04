@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    /**
-     * 지원하지 않은 HTTP method 호출 할 경우 발생
-     */
+    /** 지원하지 않은 HTTP method 호출 할 경우 발생 */
     @ExceptionHandler(
-        HttpRequestMethodNotSupportedException
-            .class) // HttpRequestMethodNotSupportedException 예외를 잡아서 처리
+            HttpRequestMethodNotSupportedException
+                    .class) // HttpRequestMethodNotSupportedException 예외를 잡아서 처리
     protected ResponseEntity<GlobalResponse> handle(HttpRequestMethodNotSupportedException e) {
         log.error("HttpRequestMethodNotSupportedException", e);
         final ErrorCode errorCode = ErrorCode.METHOD_NOT_ALLOWED;
@@ -31,17 +29,17 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<GlobalResponse> handleValidationException(
-        MethodArgumentNotValidException e) {
+            MethodArgumentNotValidException e) {
         final ErrorCode errorCode = ErrorCode.UNPROCESSABLE_ENTITY;
         final ErrorResponse errorResponse =
-            ErrorResponse.of(
-                errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
+                ErrorResponse.of(
+                        errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
 
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             errorResponse.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         final GlobalResponse response =
-            GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
+                GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
         return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 
@@ -65,10 +63,10 @@ public class GlobalExceptionHandler {
 
     private static GlobalResponse getGlobalResponse(ErrorCode errorCode) {
         final ErrorResponse errorResponse =
-            ErrorResponse.of(
-                errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
+                ErrorResponse.of(
+                        errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
         final GlobalResponse response =
-            GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
+                GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
         return response;
     }
 }
