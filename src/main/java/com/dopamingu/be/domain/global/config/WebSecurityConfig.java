@@ -29,11 +29,11 @@ public class WebSecurityConfig {
         defaultFilterChain(http);
         http.authorizeHttpRequests(
                         (requests) ->
-                            requests.requestMatchers("/auth/**")
+                                requests.requestMatchers("/auth/**")
                                         .permitAll()
-                                .requestMatchers("/" + actuatorEndpoint + "/**")
-                                .permitAll()
-                                .requestMatchers("**")
+                                        .requestMatchers("/" + actuatorEndpoint + "/**")
+                                        .permitAll()
+                                        .requestMatchers("**")
                                         .permitAll())
                 .addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

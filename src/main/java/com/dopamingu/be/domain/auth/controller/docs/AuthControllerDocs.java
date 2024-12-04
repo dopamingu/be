@@ -21,4 +21,7 @@ public interface AuthControllerDocs {
 
     @Operation(summary = "토큰 재발급", description = "refresh token 을 통한 access token 재발급")
     public TokenPairResponse refreshToken(@RequestBody TokenRefreshRequest request);
+
+    //    @Operation(summary = "로그아웃", description = "카카오/ 네이버 로그아웃")
+    //    public TokenPairResponse refreshToken(@RequestBody TokenRefreshRequest request);
 }
