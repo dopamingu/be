@@ -23,7 +23,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    private String username; // TODO : 남길까 말까
+    private String username;
 
     @Embedded private OauthInfo oauthInfo;
 

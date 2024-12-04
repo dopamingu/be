@@ -18,7 +18,11 @@ public class SwaggerConfig {
                 .components(
                         new Components()
                                 .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
-                .info(new Info().title("모잇 서버 API 명세서").version("v1").description("Moit Server"));
+            .info(
+                new Info()
+                    .title("도파밍구 서버 API 명세서")
+                    .version("v1")
+                    .description("dopamingu server"));
     }
 
     private SecurityScheme createAPIKeyScheme() {

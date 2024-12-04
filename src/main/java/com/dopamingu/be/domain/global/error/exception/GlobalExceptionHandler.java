@@ -26,15 +26,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 
-    private static GlobalResponse getGlobalResponse(ErrorCode errorCode) {
-        final ErrorResponse errorResponse =
-            ErrorResponse.of(
-                errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
-        final GlobalResponse response =
-            GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
-        return response;
-    }
-
     /**
      * @Valid 로 인한 유효성 Exception 처리
      */
@@ -70,5 +61,14 @@ public class GlobalExceptionHandler {
         final ErrorCode errorCode = ErrorCode.METHOD_NOT_ALLOWED;
         final GlobalResponse response = getGlobalResponse(errorCode);
         return ResponseEntity.status(errorCode.getStatus()).body(response);
+    }
+
+    private static GlobalResponse getGlobalResponse(ErrorCode errorCode) {
+        final ErrorResponse errorResponse =
+            ErrorResponse.of(
+                errorCode.name(), errorCode.getErrorCode(), errorCode.getMessage());
+        final GlobalResponse response =
+            GlobalResponse.fail(errorCode.getStatus().value(), errorResponse);
+        return response;
     }
 }
