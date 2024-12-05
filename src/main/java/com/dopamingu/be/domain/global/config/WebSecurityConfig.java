@@ -23,14 +23,11 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         defaultFilterChain(http);
+
         http.authorizeHttpRequests(
-                        (requests) ->
-                                requests.requestMatchers("**")
-                                        .permitAll()
-                                        .requestMatchers("/auth/**")
-                                        .permitAll())
-                .addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                (request) ->
+                        request.requestMatchers("/**").permitAll().anyRequest().authenticated());
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
