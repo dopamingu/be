@@ -17,6 +17,6 @@ public class MemberService {
 
     public UsernameAvailableResponseDto checkUsernameDuplicate(String desiredUsername) {
         return new UsernameAvailableResponseDto(
-            !memberRepository.existsMemberByUsername(desiredUsername));
+                !memberRepository.existsMemberByUsername(desiredUsername));
     }
 }
