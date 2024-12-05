@@ -1,0 +1,19 @@
+spring:
+  config:
+    import:
+      file:env.properties
+    activate:
+      on-profile: "actuator"
+management:
+  endpoints:
+    web:
+      base-path: ${ACTUATOR_BASE_PATH} # health check end-point: /{base-path}/health
+      exposure:
+        include: health
+    jmx:
+      exposure:
+        exclude: "*"
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true # actuator 활성화
