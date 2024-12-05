@@ -28,7 +28,7 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/login/naver")
     public TokenPairResponse memberOauthLoginNaver(
-        @RequestParam String code, @RequestParam String state) throws JsonProcessingException {
+            @RequestParam String code, @RequestParam String state) throws JsonProcessingException {
         return authService.naverLogin(code, state, "naver");
     }
 

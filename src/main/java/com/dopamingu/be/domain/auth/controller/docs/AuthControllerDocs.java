@@ -18,7 +18,7 @@ public interface AuthControllerDocs {
 
     @Operation(summary = "네이버 로그인", description = "네이버 로그인 API")
     public TokenPairResponse memberOauthLoginNaver(
-        @RequestParam String code, @RequestParam String state) throws JsonProcessingException;
+            @RequestParam String code, @RequestParam String state) throws JsonProcessingException;
 
     @Operation(summary = "토큰 재발급", description = "refresh token 을 통한 access token 재발급")
     public TokenPairResponse refreshToken(@RequestBody TokenRefreshRequest request);

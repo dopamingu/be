@@ -128,7 +128,7 @@ public class AuthService {
 
     private void deleteRefreshToken(Member currentMember) {
         refreshTokenRepository
-            .findById(currentMember.getId())
-            .ifPresent(refreshTokenRepository::delete);
+                .findById(currentMember.getId())
+                .ifPresent(refreshTokenRepository::delete);
     }
 }
