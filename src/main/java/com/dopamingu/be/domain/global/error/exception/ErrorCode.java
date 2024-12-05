@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     SAMPLE_ERROR(HttpStatus.BAD_REQUEST, "DP4000", "Sample Error Message"),
     NOT_EXISTING_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "DP4001", "존재하지 않는 소셜로그인 플랫폼입니다."),
+    DUPLICATE_USERNAME(HttpStatus.BAD_REQUEST, "DP4002", "중복된 닉네임입니다."),
+    PREVIOUS_USERNAME(HttpStatus.BAD_REQUEST, "DP4003", "동일한 닉네임입니다."),
 
     EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "DP4010", "만료된 JWT 토큰입니다."),
     ID_TOKEN_VERIFICATION_FAILED(HttpStatus.UNAUTHORIZED, "DP4011", "ID 토큰 검증에 실패했습니다."),
