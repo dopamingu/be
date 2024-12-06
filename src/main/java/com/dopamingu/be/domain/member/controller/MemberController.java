@@ -5,6 +5,8 @@ import com.dopamingu.be.domain.member.controller.docs.MemberControllerDocs;
 import com.dopamingu.be.domain.member.dto.request.UsernameRequestDto;
 import com.dopamingu.be.domain.member.dto.response.UsernameAvailableResponseDto;
 import com.dopamingu.be.domain.member.dto.response.UsernameResponseDto;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +28,8 @@ public class MemberController implements MemberControllerDocs {
 
     @Override
     @PatchMapping("")
-    public UsernameResponseDto updateUsername(UsernameRequestDto usernameRequestDto) {
+    public UsernameResponseDto updateUsername(
+        @Valid @RequestBody UsernameRequestDto usernameRequestDto) {
         return memberService.updateUsername(usernameRequestDto.getUsername());
     }
 }
