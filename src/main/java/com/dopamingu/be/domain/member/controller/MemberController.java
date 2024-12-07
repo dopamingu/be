@@ -29,7 +29,7 @@ public class MemberController implements MemberControllerDocs {
     @Override
     @PatchMapping("")
     public UsernameResponseDto updateUsername(
-        @Valid @RequestBody UsernameRequestDto usernameRequestDto) {
+            @Valid @RequestBody UsernameRequestDto usernameRequestDto) {
         return memberService.updateUsername(usernameRequestDto.getUsername());
     }
 }

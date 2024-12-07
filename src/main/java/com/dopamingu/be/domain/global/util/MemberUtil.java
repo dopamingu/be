@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class MemberUtil {
+    // TODO : 반복하는 memberRepository 조회의 코드를 어떻게 하는게 좋을지 고민
 
     private final SecurityUtil securityUtil;
     private final MemberRepository memberRepository;

@@ -33,13 +33,15 @@ public class MemberService {
     public UsernameResponseDto updateUsername(String username) {
 
         Member member = memberUtil.getCurrentMember();
+
         if (username.equals(member.getUsername())) {
             throw new CustomException(ErrorCode.PREVIOUS_USERNAME);
         }
+
         if (checkUserNameDuplicate(username)) {
             throw new CustomException(ErrorCode.DUPLICATE_USERNAME);
         }
-        ;
+
         member.updateUsername(username);
 
         return new UsernameResponseDto(username);
