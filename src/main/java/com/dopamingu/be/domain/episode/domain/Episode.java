@@ -14,12 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import java.awt.Point;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 
 @Entity
@@ -89,5 +89,8 @@ public class Episode extends BaseTimeEntity {
         this.member = member;
     }
 
-
+    public void addImageUrl(EpisodeImage episodeImage) {
+        this.imageUrlList.add(episodeImage);
+    }
 }
+
