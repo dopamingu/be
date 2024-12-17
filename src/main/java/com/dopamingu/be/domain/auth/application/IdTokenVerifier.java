@@ -37,7 +37,8 @@ public class IdTokenVerifier {
         validateAudience(oidcIdToken);
 
         List<GrantedAuthority> authorities =
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                Collections.singletonList(
+                        new SimpleGrantedAuthority("ROLE_USER")); // TODO: 왜 roles 의문임
         return new DefaultOidcUser(authorities, oidcIdToken);
     }
 

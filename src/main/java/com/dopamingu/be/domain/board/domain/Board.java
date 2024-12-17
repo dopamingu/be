@@ -26,5 +26,4 @@ public class Board {
     public Board(String name) {
         this.name = name;
     }
-
 }

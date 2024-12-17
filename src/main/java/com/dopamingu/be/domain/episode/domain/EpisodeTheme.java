@@ -14,5 +14,4 @@ public enum EpisodeTheme {
     DATE("데이트");
 
     private final String value;
-
 }

@@ -10,7 +10,6 @@ import com.dopamingu.be.domain.global.error.exception.ErrorCode;
 import com.dopamingu.be.domain.member.dao.MemberRepository;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.OauthInfo;
-import com.dopamingu.be.domain.member.domain.OauthProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +31,6 @@ public class AuthService {
 
     public TokenPairResponse kakaoLogin(String code, String oauthProviderString)
             throws JsonProcessingException {
-        // platform 종류 확인하기
-        OauthProvider oauthProvider = OauthProvider.fromString(oauthProviderString);
-
         String idToken = kakaoService.getIdToken(code);
 
         // Token 검증
@@ -53,9 +49,6 @@ public class AuthService {
 
     public TokenPairResponse naverLogin(String code, String state, String oauthProviderString)
             throws JsonProcessingException {
-        // platform 종류 확인하기
-        OauthProvider oauthProvider = OauthProvider.fromString(oauthProviderString);
-
         String idToken = naverService.getIdToken(code, state);
         NaverUserInfoDto naverUserInfo = naverService.getNaverUserInfo(idToken);
 

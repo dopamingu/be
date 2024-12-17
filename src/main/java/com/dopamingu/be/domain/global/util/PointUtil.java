@@ -12,4 +12,3 @@ public class PointUtil {
         return geometryFactory.createPoint(new Coordinate(x, y));
     }
 }
-

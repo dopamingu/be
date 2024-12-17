@@ -14,6 +14,7 @@ public class ErrorResponse {
     private final String errorClassName;
     private final String errorCode;
     private final String message;
+
     private List<ValidationError> validErrors;
 
     public static ErrorResponse of(String errorClassName, String errorCode, String message) {

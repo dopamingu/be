@@ -21,15 +21,15 @@ public class EpisodeRequest {
 
     public Episode toEpisodeEntity() {
         return Episode.builder()
-            .episodeName(this.episodeName)
-            .episodeTheme(this.episodeTheme)
-            .episodeStatus(EpisodeStatus.NORMAL)
-            .content(this.content)
-            .addressKeyword(this.addressKeyword)
-            .address(this.address)
-            .locationPosition(PointUtil.createPointFromXY(this.x, this.y))
-            .x(this.x)
-            .y(this.y)
-            .build();
+                .episodeName(this.episodeName)
+                .episodeTheme(this.episodeTheme)
+                .episodeStatus(EpisodeStatus.NORMAL)
+                .content(this.content)
+                .addressKeyword(this.addressKeyword)
+                .address(this.address)
+                .locationPosition(PointUtil.createPointFromXY(this.x, this.y))
+                .x(this.x)
+                .y(this.y)
+                .build();
     }
 }

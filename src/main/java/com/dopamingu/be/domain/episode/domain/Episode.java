@@ -48,7 +48,6 @@ public class Episode extends BaseTimeEntity {
     @Column(columnDefinition = "POINT SRID 4326")
     private Point locationPosition;
 
-
     private Double x;
     private Double y;
 
@@ -73,17 +72,17 @@ public class Episode extends BaseTimeEntity {
 
     @Builder
     public Episode(
-        String episodeName,
-        EpisodeTheme episodeTheme,
-        EpisodeStatus episodeStatus,
-        String content,
-        String addressKeyword,
-        String address,
-        Point locationPosition,
-        Double x,
-        Double y,
-        Board board,
-        Member member) {
+            String episodeName,
+            EpisodeTheme episodeTheme,
+            EpisodeStatus episodeStatus,
+            String content,
+            String addressKeyword,
+            String address,
+            Point locationPosition,
+            Double x,
+            Double y,
+            Board board,
+            Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
         this.episodeStatus = episodeStatus;

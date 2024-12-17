@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController implements AuthControllerDocs {
     private final AuthService authService;
 
+    // TODO: adapter pattern으로 카카오, 네이버 동적으로, 하지만 똑같이
     @GetMapping("/login/kakao")
     public TokenPairResponse memberOauthLogin(@RequestParam String code)
             throws JsonProcessingException {
