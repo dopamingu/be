@@ -21,7 +21,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,18 +45,18 @@ public class Episode extends BaseTimeEntity {
 
     private String address;
 
-    @Column(columnDefinition = "geography(Point,4326)") //
+    @Column(columnDefinition = "POINT SRID 4326")
     private Point locationPosition;
+
 
     private Double x;
     private Double y;
 
     @ManyToOne
-    @JoinColumn(name = "board_id", nullable = true)
+    @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany
-    @JoinColumn(name = "episode")
+    @OneToMany(mappedBy = "episode")
     private List<EpisodeImage> imageUrlList;
 
     @ManyToOne
@@ -73,12 +72,21 @@ public class Episode extends BaseTimeEntity {
     }
 
     @Builder
-    public Episode(String episodeName, EpisodeTheme episodeTheme, EpisodeStatus episodeStatus,
-        String content, String addressKeyword, String address, Point locationPosition, Double x,
-        Double y, Board board, Member member) {
+    public Episode(
+        String episodeName,
+        EpisodeTheme episodeTheme,
+        EpisodeStatus episodeStatus,
+        String content,
+        String addressKeyword,
+        String address,
+        Point locationPosition,
+        Double x,
+        Double y,
+        Board board,
+        Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
-        this.episodeStatus = EpisodeStatus.NORMAL;
+        this.episodeStatus = episodeStatus;
         this.content = content;
         this.addressKeyword = addressKeyword;
         this.address = address;
@@ -89,8 +97,7 @@ public class Episode extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void addImageUrl(EpisodeImage episodeImage) {
-        this.imageUrlList.add(episodeImage);
+    public void updateImageUrlList(List<EpisodeImage> imageUrlList) {
+        this.imageUrlList = imageUrlList;
     }
 }
-
