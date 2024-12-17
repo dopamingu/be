@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class EpisodeImage {
     private String imageUrl;
 
     @ManyToOne
+    @JoinColumn(name = "episode_id")
     private Episode episode;
 
     @Builder
@@ -32,5 +34,4 @@ public class EpisodeImage {
         this.imageUrl = imageUrl;
         this.episode = episode;
     }
-
 }
