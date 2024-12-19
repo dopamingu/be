@@ -1,5 +1,6 @@
 package com.dopamingu.be.domain.auth.application;
 
+import com.dopamingu.be.domain.auth.dao.RefreshTokenRepository;
 import com.dopamingu.be.domain.auth.dto.AccessTokenDto;
 import com.dopamingu.be.domain.auth.dto.NaverUserInfoDto;
 import com.dopamingu.be.domain.auth.dto.RefreshTokenDto;
@@ -7,6 +8,7 @@ import com.dopamingu.be.domain.auth.dto.TokenPairResponse;
 import com.dopamingu.be.domain.auth.dto.TokenRefreshRequest;
 import com.dopamingu.be.domain.global.error.exception.CustomException;
 import com.dopamingu.be.domain.global.error.exception.ErrorCode;
+import com.dopamingu.be.domain.global.util.MemberUtil;
 import com.dopamingu.be.domain.member.dao.MemberRepository;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.OauthInfo;
@@ -27,7 +29,9 @@ public class AuthService {
     private final NaverService naverService;
     private final IdTokenVerifier idTokenVerifier;
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenService jwtTokenService;
+    private final MemberUtil memberUtil;
 
     public TokenPairResponse kakaoLogin(String code, String oauthProviderString)
             throws JsonProcessingException {
@@ -108,5 +112,16 @@ public class AuthService {
         Member member = Member.createMember(oauthInfo, username);
         memberRepository.save(member);
         return member;
+    }
+
+    public void memberLogout() {
+        final Member currentMember = memberUtil.getCurrentMember();
+        deleteRefreshToken(currentMember);
+    }
+
+    private void deleteRefreshToken(Member currentMember) {
+        refreshTokenRepository
+                .findById(currentMember.getId())
+                .ifPresent(refreshTokenRepository::delete);
     }
 }
