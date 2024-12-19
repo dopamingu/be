@@ -44,4 +44,8 @@ public class Member extends BaseTimeEntity {
                 .oauthInfo(oauthInfo)
                 .build();
     }
+
+    public void updateUsername(String username) {
+        this.username = username;
+    }
 }
