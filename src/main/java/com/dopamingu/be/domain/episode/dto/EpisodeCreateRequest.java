@@ -8,7 +8,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class EpisodeRequest {
+public class EpisodeCreateRequest {
 
     private String episodeName;
     private EpisodeTheme episodeTheme;
