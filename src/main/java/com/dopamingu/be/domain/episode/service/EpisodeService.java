@@ -68,6 +68,14 @@ public class EpisodeService {
         episode.updateImageUrlList(imageList);
 
         // EpisodeResponse 로 반환
-        return EpisodeResponse.fromEntity(episodeRepository.save(episode));
+        return EpisodeCreateResponse.fromEntity(episodeRepository.save(episode));
+    }
+
+    public EpisodeUpdateResponse updateEpisode(EpisodeUpdateRequest episodeUpdateRequest,
+        Long episodeId) {
+        // 회원 확인
+        // 회원 ID, 에피소드 ID 로 episode 찾기 -> episode 유효성확인
+        // field update
+
     }
 }
