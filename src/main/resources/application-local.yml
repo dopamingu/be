@@ -22,5 +22,10 @@ spring:
 
 logging:
   level:
-    org.hibernate.sql: debug
-    org.hibernate.type: trace
+    root: WARN
+    org:
+      hibernate:
+        SQL: DEBUG
+        descriptor:
+          sql:
+            BasicBinder: TRACE
