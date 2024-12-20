@@ -18,6 +18,7 @@ public enum ErrorCode {
     MISSING_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "DP4014", "토큰 정보가 존재하지 않습니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4040", "해당 회원을 찾을 수 없습니다."),
+    EPISODE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4041", "해당 에피소드를 찾을 수 없습니다."),
 
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
 
@@ -26,6 +27,7 @@ public enum ErrorCode {
     UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "DP4220", "요청 데이터 형식이 올바르지 않습니다."),
 
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DP500", "서버 에러가 발생했습니다.");
+
 
     private final HttpStatus status;
     private final String errorCode;
