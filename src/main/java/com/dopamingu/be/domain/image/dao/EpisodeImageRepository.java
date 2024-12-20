@@ -9,4 +9,3 @@ public interface EpisodeImageRepository extends JpaRepository<EpisodeImage, Long
 
     List<EpisodeImage> findEpisodeImagesByEpisode(Episode episode);
 }
-

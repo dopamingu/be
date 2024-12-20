@@ -29,7 +29,8 @@ public class EpisodeController implements EpisodeControllerDocs {
     }
 
     @PatchMapping("/{episodeId}")
-    public EpisodeUpdateResponse updateEpisode(@PathVariable Long episodeId,
+    public EpisodeUpdateResponse updateEpisode(
+        @PathVariable Long episodeId,
         @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest) {
         return episodeService.updateEpisode(episodeUpdateRequest, episodeId);
     }

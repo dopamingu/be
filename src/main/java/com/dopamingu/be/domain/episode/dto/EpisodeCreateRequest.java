@@ -14,6 +14,7 @@ public class EpisodeCreateRequest {
     private String episodeName;
 
     private EpisodeTheme episodeTheme;
+
     @NotBlank(message = "내용을 입력해주세요,")
     @Size(max = 500)
     private String content;

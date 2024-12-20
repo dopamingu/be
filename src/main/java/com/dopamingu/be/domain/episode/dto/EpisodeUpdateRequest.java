@@ -12,10 +12,13 @@ public class EpisodeUpdateRequest {
     @NotBlank(message = "제목을 입력해주세요,")
     @Size(max = 100)
     private String episodeName;
+
     private EpisodeTheme episodeTheme;
+
     @NotBlank(message = "내용을 입력해주세요,")
     @Size(max = 500)
     private String content;
+
     private String thumbnailUrl;
     private List<String> imageUrlList;
     private String addressKeyword;

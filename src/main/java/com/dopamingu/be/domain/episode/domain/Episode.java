@@ -116,7 +116,8 @@ public class Episode extends BaseTimeEntity {
         this.address = episodeUpdateRequest.getAddress();
         this.x = episodeUpdateRequest.getX();
         this.y = episodeUpdateRequest.getY();
-        this.locationPosition = PointUtil.createPointFromXY(episodeUpdateRequest.getX(),
-            episodeUpdateRequest.getY());
+        this.locationPosition =
+            PointUtil.createPointFromXY(
+                episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
     }
 }

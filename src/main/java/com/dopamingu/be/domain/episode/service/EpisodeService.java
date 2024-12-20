@@ -59,26 +59,27 @@ public class EpisodeService {
         return EpisodeCreateResponse.fromEntity(savedEpisode);
     }
 
-
     private void saveEpisodeImageList(List<String> imageUrlList, Episode episode) {
         if (imageUrlList != null && !imageUrlList.isEmpty()) {
-            Set<EpisodeImage> episodeImageSet = episodeImageService.createMultipleEpisodeImage(
-                episode, imageUrlList);
+            Set<EpisodeImage> episodeImageSet =
+                episodeImageService.createMultipleEpisodeImage(episode, imageUrlList);
             // episode 의 episodeImageSet 필드 업데이트
             episode.updateEpisodeImageSet(episodeImageSet);
         }
     }
 
     @Transactional
-    public EpisodeUpdateResponse updateEpisode(EpisodeUpdateRequest episodeUpdateRequest,
-        Long episodeId) {
+    public EpisodeUpdateResponse updateEpisode(
+        EpisodeUpdateRequest episodeUpdateRequest, Long episodeId) {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
 
         // 회원 ID, 에피소드 ID 로 episode 찾기
-        Episode episode = episodeRepository.findEpisodeByIdAndMember(episodeId, member)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        Episode episode =
+            episodeRepository
+                .findEpisodeByIdAndMember(episodeId, member)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
 
         // Episode 유효성 확인
         if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
@@ -126,5 +127,4 @@ public class EpisodeService {
         // 에피소드에 기본 게시판 할당
         episode.assignDefaultBoard(defaultBoard);
     }
-
 }
