@@ -94,6 +94,27 @@ public class EpisodeService {
         return EpisodeUpdateResponse.fromEntity(episode);
     }
 
+    public Long deleteEpisode(Long episodeId) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // 회원 ID, 에피소드 ID 로 episode 찾기
+        Episode episode =
+                episodeRepository
+                        .findEpisodeByIdAndMember(episodeId, member)
+                        .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        // Episode 유효성 확인
+        if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
+            throw new CustomException(ErrorCode.EPISODE_NOT_FOUND);
+        }
+        // 이미지 삭제, 에피소드 삭제 처리
+        episodeImageService.deleteRelatedEpisodeImages(episode);
+        episode.deleteEpisodeInfo();
+
+        return episodeId;
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
