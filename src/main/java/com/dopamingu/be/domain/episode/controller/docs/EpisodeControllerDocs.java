@@ -20,5 +20,4 @@ public interface EpisodeControllerDocs {
     public EpisodeUpdateResponse updateEpisode(
             @PathVariable Long episodeId,
             @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest);
-
 }

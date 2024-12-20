@@ -29,6 +29,7 @@ public class EpisodeService {
     private final BoardRepository boardRepository;
     private final MemberUtil memberUtil;
     private final EpisodeImageService episodeImageService;
+
     public EpisodeService(
             EpisodeRepository episodeRepository,
             BoardRepository boardRepository,
@@ -126,6 +127,5 @@ public class EpisodeService {
 
         // 에피소드에 기본 게시판 할당
         episode.assignDefaultBoard(defaultBoard);
-
     }
 }
