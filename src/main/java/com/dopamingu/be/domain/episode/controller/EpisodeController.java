@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/episodes")
 public class EpisodeController implements EpisodeControllerDocs {
 
+
     private final EpisodeService episodeService;
 
     @PostMapping
@@ -33,5 +34,6 @@ public class EpisodeController implements EpisodeControllerDocs {
             @PathVariable Long episodeId,
             @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest) {
         return episodeService.updateEpisode(episodeUpdateRequest, episodeId);
+
     }
 }
