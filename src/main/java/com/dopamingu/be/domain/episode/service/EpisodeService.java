@@ -33,8 +33,8 @@ public class EpisodeService {
     public EpisodeService(
             EpisodeRepository episodeRepository,
             BoardRepository boardRepository,
-        MemberUtil memberUtil,
-        EpisodeImageService episodeImageService) {
+            MemberUtil memberUtil,
+            EpisodeImageService episodeImageService) {
         this.episodeRepository = episodeRepository;
         this.boardRepository = boardRepository;
         this.memberUtil = memberUtil;
@@ -62,7 +62,7 @@ public class EpisodeService {
     private void saveEpisodeImageList(List<String> imageUrlList, Episode episode) {
         if (imageUrlList != null && !imageUrlList.isEmpty()) {
             Set<EpisodeImage> episodeImageSet =
-                episodeImageService.createMultipleEpisodeImage(episode, imageUrlList);
+                    episodeImageService.createMultipleEpisodeImage(episode, imageUrlList);
             // episode 의 episodeImageSet 필드 업데이트
             episode.updateEpisodeImageSet(episodeImageSet);
         }
@@ -70,16 +70,16 @@ public class EpisodeService {
 
     @Transactional
     public EpisodeUpdateResponse updateEpisode(
-        EpisodeUpdateRequest episodeUpdateRequest, Long episodeId) {
+            EpisodeUpdateRequest episodeUpdateRequest, Long episodeId) {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
 
         // 회원 ID, 에피소드 ID 로 episode 찾기
         Episode episode =
-            episodeRepository
-                .findEpisodeByIdAndMember(episodeId, member)
-                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+                episodeRepository
+                        .findEpisodeByIdAndMember(episodeId, member)
+                        .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
 
         // Episode 유효성 확인
         if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
@@ -103,26 +103,26 @@ public class EpisodeService {
 
     private Episode ofEpisodeCreateRequest(EpisodeCreateRequest request, Member member) {
         return Episode.builder()
-            .episodeName(request.getEpisodeName())
-            .episodeTheme(request.getEpisodeTheme())
-            .episodeStatus(EpisodeStatus.NORMAL)
-            .content(request.getContent())
-            .addressKeyword(request.getAddressKeyword())
-            .address(request.getAddress())
-            .locationPosition(PointUtil.createPointFromXY(request.getX(), request.getY()))
-            .x(request.getX())
-            .y(request.getY())
-            .thumbnailUrl(request.getThumbnailUrl())
-            .member(member)
-            .build();
+                .episodeName(request.getEpisodeName())
+                .episodeTheme(request.getEpisodeTheme())
+                .episodeStatus(EpisodeStatus.NORMAL)
+                .content(request.getContent())
+                .addressKeyword(request.getAddressKeyword())
+                .address(request.getAddress())
+                .locationPosition(PointUtil.createPointFromXY(request.getX(), request.getY()))
+                .x(request.getX())
+                .y(request.getY())
+                .thumbnailUrl(request.getThumbnailUrl())
+                .member(member)
+                .build();
     }
 
     private void assignDefaultBoard(Episode episode) {
         // 기본 게시판 검색 또는 생성
         Board defaultBoard =
-            boardRepository
-                .findByName("default_board")
-                .orElseGet(() -> boardRepository.save(new Board("default_board")));
+                boardRepository
+                        .findByName("default_board")
+                        .orElseGet(() -> boardRepository.save(new Board("default_board")));
 
         // 에피소드에 기본 게시판 할당
         episode.assignDefaultBoard(defaultBoard);

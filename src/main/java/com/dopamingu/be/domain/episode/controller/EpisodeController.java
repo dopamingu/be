@@ -24,14 +24,14 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     @PostMapping
     public EpisodeCreateResponse createEpisode(
-        @Valid @RequestBody EpisodeCreateRequest episodeCreateRequest) {
+            @Valid @RequestBody EpisodeCreateRequest episodeCreateRequest) {
         return episodeService.createEpisode(episodeCreateRequest);
     }
 
     @PatchMapping("/{episodeId}")
     public EpisodeUpdateResponse updateEpisode(
-        @PathVariable Long episodeId,
-        @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest) {
+            @PathVariable Long episodeId,
+            @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest) {
         return episodeService.updateEpisode(episodeUpdateRequest, episodeId);
     }
 }

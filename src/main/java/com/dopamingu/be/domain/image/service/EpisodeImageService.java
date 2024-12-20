@@ -20,23 +20,23 @@ public class EpisodeImageService {
     public void deleteRelatedEpisodeImages(Episode episode) {
         // episode 기준으로 찾기
         List<EpisodeImage> episodeImageList =
-            episodeImageRepository.findEpisodeImagesByEpisode(episode);
+                episodeImageRepository.findEpisodeImagesByEpisode(episode);
         // 관련 EpisodeImage 가 있으면 삭제하기
         episodeImageRepository.deleteAll(episodeImageList);
     }
 
     public Set<EpisodeImage> createMultipleEpisodeImage(
-        Episode episode, List<String> imageUrlList) {
+            Episode episode, List<String> imageUrlList) {
 
         Set<EpisodeImage> episodeImageSet =
-            imageUrlList.stream()
-                .map(
-                    imageUrl ->
-                        EpisodeImage.builder()
-                            .imageUrl(imageUrl)
-                            .episode(episode)
-                            .build())
-                .collect(Collectors.toSet());
+                imageUrlList.stream()
+                        .map(
+                                imageUrl ->
+                                        EpisodeImage.builder()
+                                                .imageUrl(imageUrl)
+                                                .episode(episode)
+                                                .build())
+                        .collect(Collectors.toSet());
 
         episodeImageRepository.saveAll(episodeImageSet);
         return episodeImageSet;

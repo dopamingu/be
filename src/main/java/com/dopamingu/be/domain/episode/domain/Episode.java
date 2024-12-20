@@ -87,7 +87,7 @@ public class Episode extends BaseTimeEntity {
             Double x,
             Double y,
             Board board,
-        String thumbnailUrl,
+            String thumbnailUrl,
             Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
@@ -117,7 +117,7 @@ public class Episode extends BaseTimeEntity {
         this.x = episodeUpdateRequest.getX();
         this.y = episodeUpdateRequest.getY();
         this.locationPosition =
-            PointUtil.createPointFromXY(
-                episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
+                PointUtil.createPointFromXY(
+                        episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
     }
 }

@@ -18,6 +18,6 @@ public interface EpisodeControllerDocs {
 
     @Operation(summary = "에피소드 수정", description = "에피소드를 수정하는 API")
     public EpisodeUpdateResponse updateEpisode(
-        @PathVariable Long episodeId,
-        @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest);
+            @PathVariable Long episodeId,
+            @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest);
 }

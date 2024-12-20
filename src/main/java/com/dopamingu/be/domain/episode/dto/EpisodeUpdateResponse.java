@@ -15,9 +15,9 @@ public class EpisodeUpdateResponse {
 
     public static EpisodeUpdateResponse fromEntity(Episode episode) {
         return EpisodeUpdateResponse.builder()
-            .id(episode.getId())
-            .episodeName(episode.getEpisodeName())
-            .updatedAt(episode.getUpdatedAt())
-            .build();
+                .id(episode.getId())
+                .episodeName(episode.getEpisodeName())
+                .updatedAt(episode.getUpdatedAt())
+                .build();
     }
 }
