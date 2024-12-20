@@ -1,5 +1,6 @@
 package com.dopamingu.be.domain.episode.controller;
 
+import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/episodes")
-public class EpisodeController {
+public class EpisodeController implements EpisodeControllerDocs {
 
     private final EpisodeService episodeService;
 
