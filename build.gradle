@@ -64,6 +64,10 @@ dependencies {
 
     // Actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Geography related
+    implementation 'org.locationtech.jts:jts-core:1.19.0'
+    implementation 'org.hibernate:hibernate-spatial:6.5.2.Final'
 }
 
 tasks.named('test') {

@@ -6,14 +6,15 @@ services:
     container_name: local-mysql
     restart: always
     environment:
-      MYSQL_DATABASE: localdb
-      MYSQL_USER: ${LOCAL_USERNAME}
-      MYSQL_PASSWORD: ${LOCAL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: rootpassword        # 필수: MySQL root 계정 비밀번호 설정
+      MYSQL_DATABASE: localdb                 # 생성할 기본 데이터베이스 이름
+      MYSQL_USER: localuser                   # 일반 사용자 계정 이름
+      MYSQL_PASSWORD: localpassword           # 일반 사용자 비밀번호
     ports:
-      - "3306:3306"
+      - "3306:3306"                           # 호스트와 컨테이너 간 포트 매핑
     volumes:
-      - mysql-data:/var/lib/mysql
-    env_file:
+      - mysql-data:/var/lib/mysql             # 데이터 저장을 위한 볼륨 매핑
+    env_file:                                 # 추가 환경 변수 파일 (필요 시 사용)
       - env.properties
 
 volumes:
