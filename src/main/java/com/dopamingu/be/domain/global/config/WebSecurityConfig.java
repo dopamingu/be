@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/" + actuatorEndpoint + "/**")
                                         .permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/api/v1/episodes")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/episodes/**")
                                         .permitAll()
                                         .requestMatchers("**")
                                         .permitAll())
