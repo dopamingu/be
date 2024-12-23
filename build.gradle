@@ -30,9 +30,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
     // Databases
     runtimeOnly 'com.mysql:mysql-connector-j'
+//    implementation 'mysql:mysql-connector-java'
+
+
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -68,6 +72,10 @@ dependencies {
     // Geography related
     implementation 'org.locationtech.jts:jts-core:1.19.0'
     implementation 'org.hibernate:hibernate-spatial:6.5.2.Final'
+
+    // AWS S3 connection
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.767'
 }
 
 tasks.named('test') {

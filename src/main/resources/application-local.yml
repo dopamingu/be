@@ -19,6 +19,18 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      region:
+        static: ${AWS_REGION}
+      s3:
+        bucket: ${AWS_BUCKET_NAME}
+#jwt:
+#  secret:
+#    key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
 
 logging:
   level:
@@ -29,3 +41,4 @@ logging:
         descriptor:
           sql:
             BasicBinder: TRACE
+
