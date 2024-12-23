@@ -47,10 +47,10 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     @GetMapping("")
     public Slice<EpisodeListGetResponse> getEpisodeList(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-        @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
         return episodeService.getEpisodeList(page, size, sortBy, isAsc);
     }
 }

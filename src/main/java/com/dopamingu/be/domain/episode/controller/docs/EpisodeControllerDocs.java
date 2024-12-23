@@ -29,8 +29,8 @@ public interface EpisodeControllerDocs {
 
     @Operation(summary = "에피소드 조회", description = "에피소드를 조회하는 API")
     public Slice<EpisodeListGetResponse> getEpisodeList(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-        @RequestParam(required = false, defaultValue = "false") boolean isAsc);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "false") boolean isAsc);
 }

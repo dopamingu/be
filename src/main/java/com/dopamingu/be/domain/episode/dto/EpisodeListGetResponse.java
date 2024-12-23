@@ -22,13 +22,13 @@ public class EpisodeListGetResponse {
 
     public static EpisodeListGetResponse fromEntity(Episode episode) {
         return EpisodeListGetResponse.builder()
-            .id(episode.getId())
-            .episodeName(episode.getEpisodeName())
-            .episodeTheme(episode.getEpisodeTheme())
-            .content(episode.getContent())
-            .addressKeyword(episode.getAddressKeyword())
-            .thumbnailUrl(episode.getThumbnailUrl())
-            .createdAt(episode.getCreatedAt())
-            .build();
+                .id(episode.getId())
+                .episodeName(episode.getEpisodeName())
+                .episodeTheme(episode.getEpisodeTheme())
+                .content(episode.getContent())
+                .addressKeyword(episode.getAddressKeyword())
+                .thumbnailUrl(episode.getThumbnailUrl())
+                .createdAt(episode.getCreatedAt())
+                .build();
     }
 }

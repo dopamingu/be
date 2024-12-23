@@ -121,10 +121,10 @@ public class EpisodeService {
     }
 
     public Slice<EpisodeListGetResponse> getEpisodeList(
-        int page, int size, String sortBy, boolean isAsc) {
+            int page, int size, String sortBy, boolean isAsc) {
         Slice<Episode> sliceList =
-            episodeRepository.findAllByEpisodeStatus(
-                getPageable(page, size, sortBy, isAsc), EpisodeStatus.NORMAL);
+                episodeRepository.findAllByEpisodeStatus(
+                        getPageable(page, size, sortBy, isAsc), EpisodeStatus.NORMAL);
         return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
@@ -166,7 +166,6 @@ public class EpisodeService {
     private Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-        return pageable;
+        return PageRequest.of(page - 1, size, sort);
     }
 }
