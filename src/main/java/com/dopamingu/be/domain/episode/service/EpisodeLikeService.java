@@ -69,7 +69,6 @@ public class EpisodeLikeService {
         return episodeLikeRepository.save(episodeLike);
     }
 
-
     private Episode getEpisode(Long episodeId) {
         return episodeRepository
                 .findById(episodeId)
@@ -83,9 +82,9 @@ public class EpisodeLikeService {
     }
 
     private EpisodeLike getEpisodeLike(Long memberId, Long episodeId) {
-        return episodeLikeRepository.findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(
-                memberId,
-                episodeId, EpisodeLikeStatus.NORMAL)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_LIKE_NOT_FOUND));
+        return episodeLikeRepository
+                .findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(
+                        memberId, episodeId, EpisodeLikeStatus.NORMAL)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_LIKE_NOT_FOUND));
     }
 }

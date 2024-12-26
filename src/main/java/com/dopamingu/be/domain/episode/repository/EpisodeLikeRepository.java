@@ -9,6 +9,6 @@ public interface EpisodeLikeRepository extends JpaRepository<EpisodeLike, Long> 
 
     Optional<EpisodeLike> findEpisodeLikeByMemberIdAndEpisodeId(Long memberId, Long episodeId);
 
-    Optional<EpisodeLike> findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(Long memberId,
-        Long episodeId, EpisodeLikeStatus episodeLikeStatus);
+    Optional<EpisodeLike> findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(
+            Long memberId, Long episodeId, EpisodeLikeStatus episodeLikeStatus);
 }

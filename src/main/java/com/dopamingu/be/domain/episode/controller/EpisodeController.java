@@ -72,6 +72,5 @@ public class EpisodeController implements EpisodeControllerDocs {
     public ResponseEntity<Void> unlikeEpisode(@PathVariable Long episodeId) {
         episodeLikeService.unlikeEpisode(episodeId);
         return ResponseEntity.noContent().build();
-
     }
 }
