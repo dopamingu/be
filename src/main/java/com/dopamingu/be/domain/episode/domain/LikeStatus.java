@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum EpisodeLikeStatus {
+public enum LikeStatus {
     NORMAL("NORMAL"),
     DELETED("DELETED");
     private final String value;

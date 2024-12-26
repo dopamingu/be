@@ -2,7 +2,7 @@ package com.dopamingu.be.domain.episode.service;
 
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeLike;
-import com.dopamingu.be.domain.episode.domain.EpisodeLikeStatus;
+import com.dopamingu.be.domain.episode.domain.LikeStatus;
 import com.dopamingu.be.domain.episode.repository.EpisodeLikeRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
 import com.dopamingu.be.domain.global.error.exception.CustomException;
@@ -64,7 +64,7 @@ public class EpisodeLikeService {
                 EpisodeLike.builder()
                         .member(member)
                         .episode(episode)
-                        .episodeLikeStatus(EpisodeLikeStatus.NORMAL)
+                    .likeStatus(LikeStatus.NORMAL)
                         .build();
         return episodeLikeRepository.save(episodeLike);
     }
@@ -76,15 +76,15 @@ public class EpisodeLikeService {
     }
 
     private void checkEpisodeLikeDuplicate(EpisodeLike episodeLike) {
-        if (episodeLike.getEpisodeLikeStatus().equals(EpisodeLikeStatus.NORMAL)) {
+        if (episodeLike.getLikeStatus().equals(LikeStatus.NORMAL)) {
             throw new CustomException(ErrorCode.DUPLICATE_EPISODE_LIKE);
         }
     }
 
     private EpisodeLike getEpisodeLike(Long memberId, Long episodeId) {
         return episodeLikeRepository
-                .findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(
-                        memberId, episodeId, EpisodeLikeStatus.NORMAL)
+            .findEpisodeLikeByMemberIdAndEpisodeIdAndLikeStatus(
+                memberId, episodeId, LikeStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_LIKE_NOT_FOUND));
     }
 }
