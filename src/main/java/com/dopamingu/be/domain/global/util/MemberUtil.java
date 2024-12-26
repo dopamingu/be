@@ -2,8 +2,8 @@ package com.dopamingu.be.domain.global.util;
 
 import com.dopamingu.be.domain.global.error.exception.CustomException;
 import com.dopamingu.be.domain.global.error.exception.ErrorCode;
-import com.dopamingu.be.domain.member.dao.MemberRepository;
 import com.dopamingu.be.domain.member.domain.Member;
+import com.dopamingu.be.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
