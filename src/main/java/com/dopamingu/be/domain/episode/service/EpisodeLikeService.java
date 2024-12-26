@@ -21,9 +21,9 @@ public class EpisodeLikeService {
     private final MemberUtil memberUtil;
 
     public EpisodeLikeService(
-        EpisodeLikeRepository episodeLikeRepository,
-        EpisodeRepository episodeRepository,
-        MemberUtil memberUtil) {
+            EpisodeLikeRepository episodeLikeRepository,
+            EpisodeRepository episodeRepository,
+            MemberUtil memberUtil) {
         this.episodeLikeRepository = episodeLikeRepository;
         this.episodeRepository = episodeRepository;
         this.memberUtil = memberUtil;
@@ -35,31 +35,35 @@ public class EpisodeLikeService {
 
         Episode episode = getEpisode(episodeId);
 
-        Optional<EpisodeLike> episodeLike = episodeLikeRepository.findEpisodeLikeByMemberIdAndEpisodeId(
-            member.getId(), episodeId);
+        Optional<EpisodeLike> episodeLike =
+                episodeLikeRepository.findEpisodeLikeByMemberIdAndEpisodeId(
+                        member.getId(), episodeId);
 
         episodeLike.ifPresent(this::checkEpisodeLikeDuplicate);
 
-        return episodeLike.map(episodeLikeObj -> {
-            episodeLikeObj.recreateEpisodeLike();
-            return episodeLikeObj.getId();
-        }).orElseGet(() -> createEpisodeLike(member, episode).getId());
+        return episodeLike
+                .map(
+                        episodeLikeObj -> {
+                            episodeLikeObj.recreateEpisodeLike();
+                            return episodeLikeObj.getId();
+                        })
+                .orElseGet(() -> createEpisodeLike(member, episode).getId());
     }
 
     private EpisodeLike createEpisodeLike(Member member, Episode episode) {
         EpisodeLike episodeLike =
-            EpisodeLike.builder()
-                .member(member)
-                .episode(episode)
-                .episodeLikeStatus(EpisodeLikeStatus.NORMAL)
-                .build();
+                EpisodeLike.builder()
+                        .member(member)
+                        .episode(episode)
+                        .episodeLikeStatus(EpisodeLikeStatus.NORMAL)
+                        .build();
         return episodeLikeRepository.save(episodeLike);
     }
 
     private Episode getEpisode(Long episodeId) {
         return episodeRepository
-            .findById(episodeId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+                .findById(episodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
     private void checkEpisodeLikeDuplicate(EpisodeLike episodeLike) {
