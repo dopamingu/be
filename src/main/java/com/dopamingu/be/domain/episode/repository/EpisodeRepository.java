@@ -15,4 +15,5 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
     Page<Episode> findAllByEpisodeStatus(Pageable pageable, EpisodeStatus episodeStatus);
 
     Optional<Episode> findEpisodeByIdAndEpisodeStatus(Long episodeId, EpisodeStatus episodeStatus);
+
 }

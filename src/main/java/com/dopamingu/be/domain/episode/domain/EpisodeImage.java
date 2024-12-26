@@ -1,6 +1,5 @@
-package com.dopamingu.be.domain.image.domain;
+package com.dopamingu.be.domain.episode.domain;
 
-import com.dopamingu.be.domain.episode.domain.Episode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
