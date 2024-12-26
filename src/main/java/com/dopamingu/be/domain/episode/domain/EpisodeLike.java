@@ -35,8 +35,8 @@ public class EpisodeLike extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public EpisodeLike(Long id, EpisodeLikeStatus episodeLikeStatus, Episode episode,
-        Member member) {
+    public EpisodeLike(
+            Long id, EpisodeLikeStatus episodeLikeStatus, Episode episode, Member member) {
         this.id = id;
         this.episodeLikeStatus = episodeLikeStatus;
         this.episode = episode;

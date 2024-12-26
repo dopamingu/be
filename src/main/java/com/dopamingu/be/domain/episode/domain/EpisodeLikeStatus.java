@@ -6,9 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EpisodeLikeStatus {
-
     NORMAL("NORMAL"),
     DELETED("DELETED");
     private final String value;
-
 }

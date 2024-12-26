@@ -29,18 +29,18 @@ public class EpisodeDetailGetResponse {
 
     public static EpisodeDetailGetResponse fromEntity(Episode episode) {
         return EpisodeDetailGetResponse.builder()
-            .id(episode.getId())
-            .episodeName(episode.getEpisodeName())
-            .episodeTheme(episode.getEpisodeTheme())
-            .content(episode.getContent())
-            .addressKeyword(episode.getAddressKeyword())
-            .address(episode.getAddress())
-            .thumbnailUrl(episode.getThumbnailUrl())
-            .episodeImageUrlList(
-                episode.getEpisodeImageSet().stream()
-                    .map(EpisodeImage::getImageUrl)
-                    .collect(Collectors.toList()))
-            .createdAt(episode.getCreatedAt())
-            .build();
+                .id(episode.getId())
+                .episodeName(episode.getEpisodeName())
+                .episodeTheme(episode.getEpisodeTheme())
+                .content(episode.getContent())
+                .addressKeyword(episode.getAddressKeyword())
+                .address(episode.getAddress())
+                .thumbnailUrl(episode.getThumbnailUrl())
+                .episodeImageUrlList(
+                        episode.getEpisodeImageSet().stream()
+                                .map(EpisodeImage::getImageUrl)
+                                .collect(Collectors.toList()))
+                .createdAt(episode.getCreatedAt())
+                .build();
     }
 }

@@ -63,8 +63,7 @@ public class EpisodeController implements EpisodeControllerDocs {
     }
 
     @PostMapping("/{episodeId}/like")
-    public Long likeEpisode(
-        @PathVariable Long episodeId) {
+    public Long likeEpisode(@PathVariable Long episodeId) {
         return episodeLikeService.likeEpisode(episodeId);
     }
 }

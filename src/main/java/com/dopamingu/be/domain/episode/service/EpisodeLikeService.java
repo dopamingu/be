@@ -19,8 +19,10 @@ public class EpisodeLikeService {
     private final EpisodeRepository episodeRepository;
     private final MemberUtil memberUtil;
 
-    public EpisodeLikeService(EpisodeLikeRepository episodeLikeRepository,
-        EpisodeRepository episodeRepository, MemberUtil memberUtil) {
+    public EpisodeLikeService(
+            EpisodeLikeRepository episodeLikeRepository,
+            EpisodeRepository episodeRepository,
+            MemberUtil memberUtil) {
         this.episodeLikeRepository = episodeLikeRepository;
         this.episodeRepository = episodeRepository;
         this.memberUtil = memberUtil;
@@ -33,14 +35,18 @@ public class EpisodeLikeService {
         if (episodeLikeRepository.existsByMemberIdAndEpisodeId(member.getId(), episodeId)) {
             throw new CustomException(ErrorCode.DUPLICATE_EPISODE_LIKE);
         }
-        Episode episode = episodeRepository.findById(episodeId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        Episode episode =
+                episodeRepository
+                        .findById(episodeId)
+                        .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
 
-        EpisodeLike episodeLike = EpisodeLike.builder().member(member).episode(episode)
-            .episodeLikeStatus(
-                EpisodeLikeStatus.NORMAL).build();
+        EpisodeLike episodeLike =
+                EpisodeLike.builder()
+                        .member(member)
+                        .episode(episode)
+                        .episodeLikeStatus(EpisodeLikeStatus.NORMAL)
+                        .build();
         EpisodeLike savedEpisodeLike = episodeLikeRepository.save(episodeLike);
         return savedEpisodeLike.getId();
     }
-
 }
