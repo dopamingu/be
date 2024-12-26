@@ -4,6 +4,8 @@ import com.dopamingu.be.domain.common.model.BaseTimeEntity;
 import com.dopamingu.be.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class EpisodeLike extends BaseTimeEntity {
     @Column(name = "episode_like_id")
     private Long id;
 
+    @Enumerated(value = EnumType.STRING)
     private EpisodeLikeStatus episodeLikeStatus;
 
     @ManyToOne
@@ -42,4 +45,9 @@ public class EpisodeLike extends BaseTimeEntity {
         this.episode = episode;
         this.member = member;
     }
+
+    public void recreateEpisodeLike() {
+        this.episodeLikeStatus = EpisodeLikeStatus.NORMAL;
+    }
+
 }
