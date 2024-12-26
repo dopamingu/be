@@ -50,6 +50,15 @@ public class EpisodeLikeService {
                 .orElseGet(() -> createEpisodeLike(member, episode).getId());
     }
 
+    @Transactional
+    public void unlikeEpisode(Long episodeId) {
+        Member member = memberUtil.getCurrentMember();
+
+        Episode episode = getEpisode(episodeId);
+        EpisodeLike episodeLike = getEpisodeLike(member.getId(), episode.getId());
+        episodeLike.deleteEpisodeLike();
+    }
+
     private EpisodeLike createEpisodeLike(Member member, Episode episode) {
         EpisodeLike episodeLike =
                 EpisodeLike.builder()
@@ -59,6 +68,7 @@ public class EpisodeLikeService {
                         .build();
         return episodeLikeRepository.save(episodeLike);
     }
+
 
     private Episode getEpisode(Long episodeId) {
         return episodeRepository
@@ -70,5 +80,12 @@ public class EpisodeLikeService {
         if (episodeLike.getEpisodeLikeStatus().equals(EpisodeLikeStatus.NORMAL)) {
             throw new CustomException(ErrorCode.DUPLICATE_EPISODE_LIKE);
         }
+    }
+
+    private EpisodeLike getEpisodeLike(Long memberId, Long episodeId) {
+        return episodeLikeRepository.findEpisodeLikeByMemberIdAndEpisodeIdAndEpisodeLikeStatus(
+                memberId,
+                episodeId, EpisodeLikeStatus.NORMAL)
+            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_LIKE_NOT_FOUND));
     }
 }

@@ -49,4 +49,8 @@ public class EpisodeLike extends BaseTimeEntity {
     public void recreateEpisodeLike() {
         this.episodeLikeStatus = EpisodeLikeStatus.NORMAL;
     }
+
+    public void deleteEpisodeLike() {
+        this.episodeLikeStatus = EpisodeLikeStatus.DELETED;
+    }
 }
