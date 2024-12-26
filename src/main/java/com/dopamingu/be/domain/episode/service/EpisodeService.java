@@ -3,10 +3,11 @@ package com.dopamingu.be.domain.episode.service;
 import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.board.repository.BoardRepository;
 import com.dopamingu.be.domain.episode.domain.Episode;
+import com.dopamingu.be.domain.episode.domain.EpisodeImage;
 import com.dopamingu.be.domain.episode.domain.EpisodeStatus;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
-import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
@@ -15,8 +16,6 @@ import com.dopamingu.be.domain.global.error.exception.CustomException;
 import com.dopamingu.be.domain.global.error.exception.ErrorCode;
 import com.dopamingu.be.domain.global.util.MemberUtil;
 import com.dopamingu.be.domain.global.util.PointUtil;
-import com.dopamingu.be.domain.image.domain.EpisodeImage;
-import com.dopamingu.be.domain.image.service.EpisodeImageService;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class EpisodeService {
 
     private final EpisodeRepository episodeRepository;
@@ -74,7 +74,6 @@ public class EpisodeService {
         }
     }
 
-    @Transactional
     public EpisodeUpdateResponse updateEpisode(
             EpisodeUpdateRequest episodeUpdateRequest, Long episodeId) {
         // 회원 확인
@@ -132,12 +131,12 @@ public class EpisodeService {
     // 특정 Episode 의 정보 가져 오기
     // 예외 처리 없는 에피소드를 조회 하면 예외 발생
 
-    public EpisodeDetailGetlResponse getEpisodeDetail(Long episodeId) {
+    public EpisodeDetailGetResponse getEpisodeDetail(Long episodeId) {
         Episode episode =
                 episodeRepository
                         .findEpisodeByIdAndEpisodeStatus(episodeId, EpisodeStatus.NORMAL)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
-        return EpisodeDetailGetlResponse.fromEntity(episode);
+        return EpisodeDetailGetResponse.fromEntity(episode);
     }
 
     private void checkMemberStatus(Member member) {
