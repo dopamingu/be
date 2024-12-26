@@ -7,14 +7,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class EpisodeResponse {
+public class EpisodeCreateResponse {
 
     private final Long id;
     private final String episodeName;
     private final LocalDateTime createdAt;
 
-    public static EpisodeResponse fromEntity(Episode episode) {
-        return EpisodeResponse.builder()
+    public static EpisodeCreateResponse fromEntity(Episode episode) {
+        return EpisodeCreateResponse.builder()
                 .id(episode.getId())
                 .episodeName(episode.getEpisodeName())
                 .createdAt(episode.getCreatedAt())

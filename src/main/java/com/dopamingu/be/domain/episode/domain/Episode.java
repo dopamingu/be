@@ -2,8 +2,11 @@ package com.dopamingu.be.domain.episode.domain;
 
 import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.common.model.BaseTimeEntity;
+import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
+import com.dopamingu.be.domain.global.util.PointUtil;
 import com.dopamingu.be.domain.image.domain.EpisodeImage;
 import com.dopamingu.be.domain.member.domain.Member;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import java.util.List;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,8 +58,10 @@ public class Episode extends BaseTimeEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "episode")
-    private List<EpisodeImage> imageUrlList;
+    private String thumbnailUrl;
+
+    @OneToMany(mappedBy = "episode", cascade = CascadeType.PERSIST)
+    private Set<EpisodeImage> episodeImageSet;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -82,6 +87,7 @@ public class Episode extends BaseTimeEntity {
             Double x,
             Double y,
             Board board,
+            String thumbnailUrl,
             Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
@@ -93,10 +99,25 @@ public class Episode extends BaseTimeEntity {
         this.x = x;
         this.y = y;
         this.board = board;
+        this.thumbnailUrl = thumbnailUrl;
         this.member = member;
     }
 
-    public void updateImageUrlList(List<EpisodeImage> imageUrlList) {
-        this.imageUrlList = imageUrlList;
+    // 헬퍼 메서드: EpisodeImage 추가
+    public void updateEpisodeImageSet(Set<EpisodeImage> episodeImageSet) {
+        this.episodeImageSet = episodeImageSet;
+    }
+
+    public void updateEpisodeInfo(EpisodeUpdateRequest episodeUpdateRequest) {
+        this.episodeName = episodeUpdateRequest.getEpisodeName();
+        this.episodeTheme = episodeUpdateRequest.getEpisodeTheme();
+        this.content = episodeUpdateRequest.getContent();
+        this.addressKeyword = episodeUpdateRequest.getAddressKeyword();
+        this.address = episodeUpdateRequest.getAddress();
+        this.x = episodeUpdateRequest.getX();
+        this.y = episodeUpdateRequest.getY();
+        this.locationPosition =
+                PointUtil.createPointFromXY(
+                        episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
     }
 }
