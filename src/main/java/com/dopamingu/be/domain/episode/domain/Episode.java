@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,7 +41,7 @@ public class Episode extends BaseTimeEntity {
     private EpisodeTheme episodeTheme;
 
     @Enumerated(value = EnumType.STRING)
-    private EpisodeStatus episodeStatus;
+    private ContentStatus contentStatus;
 
     private String content;
 
@@ -79,7 +80,7 @@ public class Episode extends BaseTimeEntity {
     public Episode(
             String episodeName,
             EpisodeTheme episodeTheme,
-            EpisodeStatus episodeStatus,
+            ContentStatus contentStatus,
             String content,
             String addressKeyword,
             String address,
@@ -91,7 +92,7 @@ public class Episode extends BaseTimeEntity {
             Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
-        this.episodeStatus = episodeStatus;
+        this.contentStatus = contentStatus;
         this.content = content;
         this.addressKeyword = addressKeyword;
         this.address = address;
@@ -119,5 +120,10 @@ public class Episode extends BaseTimeEntity {
         this.locationPosition =
                 PointUtil.createPointFromXY(
                         episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
+    }
+
+    public void deleteEpisodeInfo() {
+        this.contentStatus = ContentStatus.DELETED;
+        this.episodeImageSet = new HashSet<>();
     }
 }
