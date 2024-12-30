@@ -83,8 +83,8 @@ public class EpisodeLikeService {
 
     private EpisodeLike getEpisodeLike(Long memberId, Long episodeId) {
         return episodeLikeRepository
-            .findEpisodeLikeByMemberIdAndEpisodeIdAndLikeStatus(
-                memberId, episodeId, LikeStatus.NORMAL)
+                .findEpisodeLikeByMemberIdAndEpisodeIdAndLikeStatus(
+                        memberId, episodeId, LikeStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_LIKE_NOT_FOUND));
     }
 }
