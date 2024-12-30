@@ -6,6 +6,7 @@ import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
@@ -128,6 +129,16 @@ public class EpisodeService {
         return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
+    // 특정 Episode 의 정보 가져 오기
+    // 예외 처리 없는 에피소드를 조회 하면 예외 발생
+    public EpisodeDetailGetlResponse getEpisodeDetail(Long episodeId) {
+        Episode episode =
+                episodeRepository
+                        .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+                        .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        return EpisodeDetailGetlResponse.fromEntity(episode);
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
@@ -152,7 +163,6 @@ public class EpisodeService {
     }
 
     private void assignDefaultBoard(Episode episode) {
-
         // 기본 게시판 검색 또는 생성
         Board defaultBoard =
                 boardRepository

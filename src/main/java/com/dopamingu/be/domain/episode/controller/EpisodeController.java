@@ -3,6 +3,7 @@ package com.dopamingu.be.domain.episode.controller;
 import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
@@ -52,5 +53,10 @@ public class EpisodeController implements EpisodeControllerDocs {
             @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
             @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
         return episodeService.getEpisodeList(page, size, sortBy, isAsc);
+    }
+
+    @GetMapping("/{episodeId}")
+    public EpisodeDetailGetlResponse getEpisodeDetail(@PathVariable Long episodeId) {
+        return episodeService.getEpisodeDetail(episodeId);
     }
 }
