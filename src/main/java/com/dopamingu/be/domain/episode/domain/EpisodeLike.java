@@ -27,7 +27,7 @@ public class EpisodeLike extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    private EpisodeLikeStatus episodeLikeStatus;
+    private LikeStatus likeStatus;
 
     @ManyToOne
     @JoinColumn(name = "episode_id")
@@ -38,15 +38,18 @@ public class EpisodeLike extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public EpisodeLike(
-            Long id, EpisodeLikeStatus episodeLikeStatus, Episode episode, Member member) {
+    public EpisodeLike(Long id, LikeStatus likeStatus, Episode episode, Member member) {
         this.id = id;
-        this.episodeLikeStatus = episodeLikeStatus;
+        this.likeStatus = likeStatus;
         this.episode = episode;
         this.member = member;
     }
 
     public void recreateEpisodeLike() {
-        this.episodeLikeStatus = EpisodeLikeStatus.NORMAL;
+        this.likeStatus = LikeStatus.NORMAL;
+    }
+
+    public void deleteEpisodeLike() {
+        this.likeStatus = LikeStatus.DELETED;
     }
 }

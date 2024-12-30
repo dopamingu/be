@@ -5,7 +5,6 @@ import com.dopamingu.be.domain.board.repository.BoardRepository;
 import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeImage;
-import com.dopamingu.be.domain.episode.domain.EpisodeStatus;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
