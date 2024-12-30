@@ -2,6 +2,7 @@ package com.dopamingu.be.domain.episode.service;
 
 import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.board.repository.BoardRepository;
+import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeStatus;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
@@ -105,13 +106,14 @@ public class EpisodeService {
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
 
+
         // 회원 ID, 에피소드 ID 로 episode 찾기
         Episode episode =
                 episodeRepository
                         .findEpisodeByIdAndMember(episodeId, member)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
         // Episode 유효성 확인
-        if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
+        if (!episode.getContentStatus().equals(ContentStatus.NORMAL)) {
             throw new CustomException(ErrorCode.EPISODE_NOT_FOUND);
         }
         // 이미지 삭제, 에피소드 삭제 처리
@@ -124,14 +126,13 @@ public class EpisodeService {
     public Slice<EpisodeListGetResponse> getEpisodeList(
             int page, int size, String sortBy, boolean isAsc) {
         Slice<Episode> sliceList =
-                episodeRepository.findAllByEpisodeStatus(
-                        getPageable(page, size, sortBy, isAsc), EpisodeStatus.NORMAL);
+                episodeRepository.findAllByContentStatus(
+                        getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
         return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
     // 특정 Episode 의 정보 가져 오기
     // 예외 처리 없는 에피소드를 조회 하면 예외 발생
-
     public EpisodeDetailGetlResponse getEpisodeDetail(Long episodeId) {
         Episode episode =
                 episodeRepository
@@ -151,7 +152,7 @@ public class EpisodeService {
         return Episode.builder()
                 .episodeName(request.getEpisodeName())
                 .episodeTheme(request.getEpisodeTheme())
-                .episodeStatus(EpisodeStatus.NORMAL)
+                .contentStatus(ContentStatus.NORMAL)
                 .content(request.getContent())
                 .addressKeyword(request.getAddressKeyword())
                 .address(request.getAddress())
@@ -164,7 +165,6 @@ public class EpisodeService {
     }
 
     private void assignDefaultBoard(Episode episode) {
-
         // 기본 게시판 검색 또는 생성
         Board defaultBoard =
                 boardRepository
