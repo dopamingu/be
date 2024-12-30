@@ -64,7 +64,7 @@ public class EpisodeLikeService {
                 EpisodeLike.builder()
                         .member(member)
                         .episode(episode)
-                    .likeStatus(LikeStatus.NORMAL)
+                        .likeStatus(LikeStatus.NORMAL)
                         .build();
         return episodeLikeRepository.save(episodeLike);
     }
