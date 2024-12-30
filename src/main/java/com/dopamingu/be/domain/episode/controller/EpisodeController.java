@@ -8,6 +8,7 @@ import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
 import com.dopamingu.be.domain.episode.service.EpisodeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +34,10 @@ public class EpisodeController implements EpisodeControllerDocs {
             @PathVariable Long episodeId,
             @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest) {
         return episodeService.updateEpisode(episodeUpdateRequest, episodeId);
+    }
+
+    @DeleteMapping("/{episodeId}")
+    public Long deleteEpisode(@PathVariable Long episodeId) {
+        return episodeService.deleteEpisode(episodeId);
     }
 }

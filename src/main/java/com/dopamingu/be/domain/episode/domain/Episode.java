@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -119,5 +120,10 @@ public class Episode extends BaseTimeEntity {
         this.locationPosition =
                 PointUtil.createPointFromXY(
                         episodeUpdateRequest.getX(), episodeUpdateRequest.getY());
+    }
+
+    public void deleteEpisodeInfo() {
+        this.episodeStatus = EpisodeStatus.DELETED;
+        this.episodeImageSet = new HashSet<>();
     }
 }

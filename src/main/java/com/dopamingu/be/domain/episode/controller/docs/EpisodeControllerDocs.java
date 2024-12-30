@@ -10,9 +10,9 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "에피소드 관련", description = "에피소드 API")
 public interface EpisodeControllerDocs {
 
-    @Tag(name = "에피소드 관련", description = "에피소드 API")
     @Operation(summary = "에피소드 등록", description = "에피소드를 등록하는 API")
     public EpisodeCreateResponse createEpisode(EpisodeCreateRequest episodeCreateRequest);
 
@@ -20,4 +20,7 @@ public interface EpisodeControllerDocs {
     public EpisodeUpdateResponse updateEpisode(
             @PathVariable Long episodeId,
             @Valid @RequestBody EpisodeUpdateRequest episodeUpdateRequest);
+
+    @Operation(summary = "에피소드 삭제", description = "에피소드를 삭제하는 API")
+    public Long deleteEpisode(@PathVariable Long episodeId);
 }
