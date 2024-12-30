@@ -23,6 +23,7 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
 
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "DP4090", "중복된 닉네임입니다."),
+    DUPLICATE_EPISODE_LIKE(HttpStatus.CONFLICT, "DP4091", "이미 좋아요를 한 게시물입니다."),
 
     UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "DP4220", "요청 데이터 형식이 올바르지 않습니다."),
 

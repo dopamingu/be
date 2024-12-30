@@ -1,8 +1,8 @@
 package com.dopamingu.be.domain.episode.dto;
 
 import com.dopamingu.be.domain.episode.domain.Episode;
+import com.dopamingu.be.domain.episode.domain.EpisodeImage;
 import com.dopamingu.be.domain.episode.domain.EpisodeTheme;
-import com.dopamingu.be.domain.image.domain.EpisodeImage;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +11,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class EpisodeDetailGetlResponse {
+public class EpisodeDetailGetResponse {
+
     private final Long id;
     private final String episodeName;
     private final EpisodeTheme episodeTheme;
@@ -26,8 +27,8 @@ public class EpisodeDetailGetlResponse {
 
     // TODO: 좋아요 수, 유저 좋아요 여부
 
-    public static EpisodeDetailGetlResponse fromEntity(Episode episode) {
-        return EpisodeDetailGetlResponse.builder()
+    public static EpisodeDetailGetResponse fromEntity(Episode episode) {
+        return EpisodeDetailGetResponse.builder()
                 .id(episode.getId())
                 .episodeName(episode.getEpisodeName())
                 .episodeTheme(episode.getEpisodeTheme())
