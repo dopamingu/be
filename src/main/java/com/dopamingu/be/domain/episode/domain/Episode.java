@@ -4,7 +4,6 @@ import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.common.model.BaseTimeEntity;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.global.util.PointUtil;
-import com.dopamingu.be.domain.image.domain.EpisodeImage;
 import com.dopamingu.be.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

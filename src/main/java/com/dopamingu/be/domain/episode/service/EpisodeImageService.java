@@ -1,8 +1,8 @@
-package com.dopamingu.be.domain.image.service;
+package com.dopamingu.be.domain.episode.service;
 
 import com.dopamingu.be.domain.episode.domain.Episode;
-import com.dopamingu.be.domain.image.dao.EpisodeImageRepository;
-import com.dopamingu.be.domain.image.domain.EpisodeImage;
+import com.dopamingu.be.domain.episode.domain.EpisodeImage;
+import com.dopamingu.be.domain.episode.repository.EpisodeImageRepository;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

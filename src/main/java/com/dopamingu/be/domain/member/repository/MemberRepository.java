@@ -1,4 +1,4 @@
-package com.dopamingu.be.domain.member.dao;
+package com.dopamingu.be.domain.member.repository;
 
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.OauthInfo;
