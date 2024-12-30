@@ -3,14 +3,16 @@ package com.dopamingu.be.domain.episode.controller;
 import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
-import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
+import com.dopamingu.be.domain.episode.service.EpisodeLikeService;
 import com.dopamingu.be.domain.episode.service.EpisodeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EpisodeController implements EpisodeControllerDocs {
 
     private final EpisodeService episodeService;
+    private final EpisodeLikeService episodeLikeService;
 
     @PostMapping
     public EpisodeCreateResponse createEpisode(
@@ -56,7 +59,18 @@ public class EpisodeController implements EpisodeControllerDocs {
     }
 
     @GetMapping("/{episodeId}")
-    public EpisodeDetailGetlResponse getEpisodeDetail(@PathVariable Long episodeId) {
+    public EpisodeDetailGetResponse getEpisodeDetail(@PathVariable Long episodeId) {
         return episodeService.getEpisodeDetail(episodeId);
+    }
+
+    @PostMapping("/{episodeId}/like")
+    public Long likeEpisode(@PathVariable Long episodeId) {
+        return episodeLikeService.likeEpisode(episodeId);
+    }
+
+    @PostMapping("/{episodeId}/unlike")
+    public ResponseEntity<Void> unlikeEpisode(@PathVariable Long episodeId) {
+        episodeLikeService.unlikeEpisode(episodeId);
+        return ResponseEntity.noContent().build();
     }
 }

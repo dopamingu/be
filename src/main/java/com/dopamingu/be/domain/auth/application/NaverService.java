@@ -1,7 +1,7 @@
 package com.dopamingu.be.domain.auth.application;
 
 import com.dopamingu.be.domain.auth.dto.NaverUserInfoDto;
-import com.dopamingu.be.domain.member.dao.MemberRepository;
+import com.dopamingu.be.domain.member.repository.MemberRepository;
 import com.dopamingu.be.infra.config.oauth.NaverProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

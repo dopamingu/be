@@ -19,10 +19,12 @@ public enum ErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4040", "해당 회원을 찾을 수 없습니다."),
     EPISODE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4041", "해당 에피소드를 찾을 수 없습니다."),
+    EPISODE_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4042", "좋아요를 한 적 없는 에피소드입니다."),
 
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
 
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "DP4090", "중복된 닉네임입니다."),
+    DUPLICATE_EPISODE_LIKE(HttpStatus.CONFLICT, "DP4091", "이미 좋아요를 한 게시물입니다."),
 
     UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "DP4220", "요청 데이터 형식이 올바르지 않습니다."),
 

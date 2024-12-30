@@ -2,7 +2,7 @@ package com.dopamingu.be.domain.episode.controller.docs;
 
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
-import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
@@ -36,5 +36,8 @@ public interface EpisodeControllerDocs {
             @RequestParam(required = false, defaultValue = "false") boolean isAsc);
 
     @Operation(summary = "에피소드 상세 조회", description = "에피소드 개별 조회하는 API")
-    public EpisodeDetailGetlResponse getEpisodeDetail(@PathVariable Long episodeId);
+    public EpisodeDetailGetResponse getEpisodeDetail(@PathVariable Long episodeId);
+
+    @Operation(summary = "에피소드 좋아요", description = "에피소드를 좋아요 등록하는 API")
+    public Long likeEpisode(@PathVariable Long episodeId);
 }

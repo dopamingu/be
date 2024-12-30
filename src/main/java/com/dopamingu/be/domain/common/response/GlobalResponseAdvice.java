@@ -19,7 +19,6 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice {
     }
 
     @Override
-    // TODO: Controller 에서 HttpResponse 를 응답하면 어떤일이 발생하지?
     public Object beforeBodyWrite(
             Object body,
             MethodParameter returnType,
