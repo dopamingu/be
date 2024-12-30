@@ -80,7 +80,7 @@ public class Episode extends BaseTimeEntity {
     public Episode(
             String episodeName,
             EpisodeTheme episodeTheme,
-        ContentStatus contentStatus,
+            ContentStatus contentStatus,
             String content,
             String addressKeyword,
             String address,

@@ -123,8 +123,8 @@ public class EpisodeService {
     public Slice<EpisodeListGetResponse> getEpisodeList(
             int page, int size, String sortBy, boolean isAsc) {
         Slice<Episode> sliceList =
-            episodeRepository.findAllByContentStatus(
-                getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
+                episodeRepository.findAllByContentStatus(
+                        getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
         return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
@@ -139,7 +139,7 @@ public class EpisodeService {
         return Episode.builder()
                 .episodeName(request.getEpisodeName())
                 .episodeTheme(request.getEpisodeTheme())
-            .contentStatus(ContentStatus.NORMAL)
+                .contentStatus(ContentStatus.NORMAL)
                 .content(request.getContent())
                 .addressKeyword(request.getAddressKeyword())
                 .address(request.getAddress())
