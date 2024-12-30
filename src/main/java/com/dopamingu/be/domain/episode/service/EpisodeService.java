@@ -2,10 +2,11 @@ package com.dopamingu.be.domain.episode.service;
 
 import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.board.repository.BoardRepository;
+import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
-import com.dopamingu.be.domain.episode.domain.EpisodeStatus;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
+import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
@@ -19,6 +20,10 @@ import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,7 +87,7 @@ public class EpisodeService {
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
 
         // Episode 유효성 확인
-        if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
+        if (!episode.getContentStatus().equals(ContentStatus.NORMAL)) {
             throw new CustomException(ErrorCode.EPISODE_NOT_FOUND);
         }
         // 이미지 수정
@@ -105,7 +110,7 @@ public class EpisodeService {
                         .findEpisodeByIdAndMember(episodeId, member)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
         // Episode 유효성 확인
-        if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
+        if (!episode.getContentStatus().equals(ContentStatus.NORMAL)) {
             throw new CustomException(ErrorCode.EPISODE_NOT_FOUND);
         }
         // 이미지 삭제, 에피소드 삭제 처리
@@ -113,6 +118,14 @@ public class EpisodeService {
         episode.deleteEpisodeInfo();
 
         return episodeId;
+    }
+
+    public Slice<EpisodeListGetResponse> getEpisodeList(
+            int page, int size, String sortBy, boolean isAsc) {
+        Slice<Episode> sliceList =
+                episodeRepository.findAllByContentStatus(
+                        getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
+        return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
     private void checkMemberStatus(Member member) {
@@ -126,7 +139,7 @@ public class EpisodeService {
         return Episode.builder()
                 .episodeName(request.getEpisodeName())
                 .episodeTheme(request.getEpisodeTheme())
-                .episodeStatus(EpisodeStatus.NORMAL)
+                .contentStatus(ContentStatus.NORMAL)
                 .content(request.getContent())
                 .addressKeyword(request.getAddressKeyword())
                 .address(request.getAddress())
@@ -148,5 +161,11 @@ public class EpisodeService {
 
         // 에피소드에 기본 게시판 할당
         episode.assignDefaultBoard(defaultBoard);
+    }
+
+    private Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return PageRequest.of(page - 1, size, sort);
     }
 }
