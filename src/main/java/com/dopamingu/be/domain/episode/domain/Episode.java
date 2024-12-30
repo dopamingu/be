@@ -41,7 +41,7 @@ public class Episode extends BaseTimeEntity {
     private EpisodeTheme episodeTheme;
 
     @Enumerated(value = EnumType.STRING)
-    private EpisodeStatus episodeStatus;
+    private ContentStatus contentStatus;
 
     private String content;
 
@@ -80,7 +80,7 @@ public class Episode extends BaseTimeEntity {
     public Episode(
             String episodeName,
             EpisodeTheme episodeTheme,
-            EpisodeStatus episodeStatus,
+        ContentStatus contentStatus,
             String content,
             String addressKeyword,
             String address,
@@ -92,7 +92,7 @@ public class Episode extends BaseTimeEntity {
             Member member) {
         this.episodeName = episodeName;
         this.episodeTheme = episodeTheme;
-        this.episodeStatus = episodeStatus;
+        this.contentStatus = contentStatus;
         this.content = content;
         this.addressKeyword = addressKeyword;
         this.address = address;
@@ -123,7 +123,7 @@ public class Episode extends BaseTimeEntity {
     }
 
     public void deleteEpisodeInfo() {
-        this.episodeStatus = EpisodeStatus.DELETED;
+        this.contentStatus = ContentStatus.DELETED;
         this.episodeImageSet = new HashSet<>();
     }
 }
