@@ -123,18 +123,17 @@ public class EpisodeService {
     public Slice<EpisodeListGetResponse> getEpisodeList(
             int page, int size, String sortBy, boolean isAsc) {
         Slice<Episode> sliceList =
-            episodeRepository.findAllByContentStatus(
-                getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
+                episodeRepository.findAllByContentStatus(
+                        getPageable(page, size, sortBy, isAsc), ContentStatus.NORMAL);
         return sliceList.map(EpisodeListGetResponse::fromEntity);
     }
 
     // 특정 Episode 의 정보 가져 오기
     // 예외 처리 없는 에피소드를 조회 하면 예외 발생
-
     public EpisodeDetailGetResponse getEpisodeDetail(Long episodeId) {
         Episode episode =
                 episodeRepository
-                    .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+                        .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
         return EpisodeDetailGetResponse.fromEntity(episode);
     }
@@ -150,7 +149,7 @@ public class EpisodeService {
         return Episode.builder()
                 .episodeName(request.getEpisodeName())
                 .episodeTheme(request.getEpisodeTheme())
-            .contentStatus(ContentStatus.NORMAL)
+                .contentStatus(ContentStatus.NORMAL)
                 .content(request.getContent())
                 .addressKeyword(request.getAddressKeyword())
                 .address(request.getAddress())
@@ -163,7 +162,6 @@ public class EpisodeService {
     }
 
     private void assignDefaultBoard(Episode episode) {
-
         // 기본 게시판 검색 또는 생성
         Board defaultBoard =
                 boardRepository
