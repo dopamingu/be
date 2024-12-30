@@ -134,7 +134,7 @@ public class EpisodeService {
     public EpisodeDetailGetlResponse getEpisodeDetail(Long episodeId) {
         Episode episode =
                 episodeRepository
-                    .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+                        .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
         return EpisodeDetailGetlResponse.fromEntity(episode);
     }
