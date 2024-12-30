@@ -4,7 +4,6 @@ import com.dopamingu.be.domain.board.domain.Board;
 import com.dopamingu.be.domain.board.repository.BoardRepository;
 import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
-import com.dopamingu.be.domain.episode.domain.EpisodeStatus;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetlResponse;
@@ -89,7 +88,7 @@ public class EpisodeService {
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
 
         // Episode 유효성 확인
-        if (!episode.getEpisodeStatus().equals(EpisodeStatus.NORMAL)) {
+        if (!episode.getContentStatus().equals(ContentStatus.NORMAL)) {
             throw new CustomException(ErrorCode.EPISODE_NOT_FOUND);
         }
         // 이미지 수정
@@ -105,7 +104,6 @@ public class EpisodeService {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
-
 
         // 회원 ID, 에피소드 ID 로 episode 찾기
         Episode episode =
@@ -136,7 +134,7 @@ public class EpisodeService {
     public EpisodeDetailGetlResponse getEpisodeDetail(Long episodeId) {
         Episode episode =
                 episodeRepository
-                        .findEpisodeByIdAndEpisodeStatus(episodeId, EpisodeStatus.NORMAL)
+                    .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                         .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
         return EpisodeDetailGetlResponse.fromEntity(episode);
     }
