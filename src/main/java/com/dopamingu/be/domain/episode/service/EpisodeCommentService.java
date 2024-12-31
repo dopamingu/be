@@ -67,6 +67,8 @@ public class EpisodeCommentService {
         // EpisodeComment 확인
         EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
 
+        checkRequestorIsCreator(episodeComment, member);
+
         // 내용 변경
         episodeComment.updateEpisodeComment(episodeCommentUpdateRequest);
 
@@ -90,6 +92,12 @@ public class EpisodeCommentService {
         return episodeCommentRepository
                 .findByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
+    }
+
+    private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
+        if (!episodeComment.getMember().equals(member)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 
     private EpisodeComment ofEpisodeCommentCreateRequest(
