@@ -1,6 +1,7 @@
 package com.dopamingu.be.domain.episode.domain;
 
 import com.dopamingu.be.domain.common.model.BaseTimeEntity;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -71,5 +72,13 @@ public class EpisodeComment extends BaseTimeEntity {
         this.parent = parent;
         this.episode = episode;
         this.member = member;
+    }
+
+    public void updateEpisodeComment(EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+        this.content = episodeCommentUpdateRequest.getContent();
+    }
+
+    public void deleteEpisodeComment() {
+        this.contentStatus = ContentStatus.DELETED;
     }
 }
