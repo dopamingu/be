@@ -1,12 +1,14 @@
 package com.dopamingu.be.domain.episode.controller;
 
 import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
+import com.dopamingu.be.domain.episode.service.EpisodeCommentService;
 import com.dopamingu.be.domain.episode.service.EpisodeLikeService;
 import com.dopamingu.be.domain.episode.service.EpisodeService;
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     private final EpisodeService episodeService;
     private final EpisodeLikeService episodeLikeService;
+    private final EpisodeCommentService episodeCommentService;
 
     @PostMapping
     public EpisodeCreateResponse createEpisode(
@@ -72,5 +75,12 @@ public class EpisodeController implements EpisodeControllerDocs {
     public ResponseEntity<Void> unlikeEpisode(@PathVariable Long episodeId) {
         episodeLikeService.unlikeEpisode(episodeId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{episodeId}/comments")
+    public Long createEpisodeComment(
+            @PathVariable Long episodeId,
+            @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
+        return episodeCommentService.createEpisodeComment(episodeId, episodeCommentCreateRequest);
     }
 }
