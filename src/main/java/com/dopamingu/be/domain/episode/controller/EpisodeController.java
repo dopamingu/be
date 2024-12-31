@@ -79,8 +79,9 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     @PostMapping("/{episodeId}/comments")
     public Long createEpisodeComment(
-            @PathVariable Long episodeId,
-            @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
+        @PathVariable Long episodeId,
+        @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
         return episodeCommentService.createEpisodeComment(episodeId, episodeCommentCreateRequest);
     }
+
 }

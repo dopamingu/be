@@ -35,9 +35,11 @@ public class EpisodeComment extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ContentStatus contentStatus;
 
-    @NotNull private String creatorName;
+    @NotNull
+    private String creatorName;
 
-    @Length(max = 100) private String content;
+    @Length(max = 100)
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
@@ -59,12 +61,12 @@ public class EpisodeComment extends BaseTimeEntity {
 
     @Builder
     private EpisodeComment(
-            ContentStatus contentStatus,
-            String creatorName,
-            String content,
-            EpisodeComment parent,
-            Episode episode,
-            Member member) {
+        ContentStatus contentStatus,
+        String creatorName,
+        String content,
+        EpisodeComment parent,
+        Episode episode,
+        Member member) {
         this.contentStatus = contentStatus;
         this.creatorName = creatorName;
         this.content = content;
