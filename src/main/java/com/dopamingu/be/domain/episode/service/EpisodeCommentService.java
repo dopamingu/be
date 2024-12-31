@@ -21,16 +21,17 @@ public class EpisodeCommentService {
     private final EpisodeRepository episodeRepository;
     private final MemberUtil memberUtil;
 
-    public EpisodeCommentService(EpisodeCommentRepository episodeCommentRepository,
-        EpisodeRepository episodeRepository,
-        MemberUtil memberUtil) {
+    public EpisodeCommentService(
+            EpisodeCommentRepository episodeCommentRepository,
+            EpisodeRepository episodeRepository,
+            MemberUtil memberUtil) {
         this.episodeCommentRepository = episodeCommentRepository;
         this.episodeRepository = episodeRepository;
         this.memberUtil = memberUtil;
     }
 
-    public Long createEpisodeComment(Long episodeId,
-        EpisodeCommentCreateRequest episodeCommentCreateRequest) {
+    public Long createEpisodeComment(
+            Long episodeId, EpisodeCommentCreateRequest episodeCommentCreateRequest) {
 
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
@@ -39,8 +40,10 @@ public class EpisodeCommentService {
         // Episode 확인
         Episode episode = getEpisode(episodeId);
 
-        EpisodeComment episodeComment = episodeCommentRepository.save(
-            ofEpisodeCommentCreateRequest(episodeCommentCreateRequest, member, episode));
+        EpisodeComment episodeComment =
+                episodeCommentRepository.save(
+                        ofEpisodeCommentCreateRequest(
+                                episodeCommentCreateRequest, member, episode));
 
         return episodeComment.getId();
     }
@@ -54,24 +57,27 @@ public class EpisodeCommentService {
 
     private Episode getEpisode(Long episodeId) {
         return episodeRepository
-            .findById(episodeId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+                .findById(episodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
     private EpisodeComment ofEpisodeCommentCreateRequest(
-        EpisodeCommentCreateRequest episodeCommentCreateRequest, Member member, Episode episode) {
+            EpisodeCommentCreateRequest episodeCommentCreateRequest,
+            Member member,
+            Episode episode) {
         return EpisodeComment.builder()
-            .contentStatus(ContentStatus.NORMAL)
-            .creatorName(generateNewCreatorName(member, episode))
-            .content(episodeCommentCreateRequest.getContent())
-            .member(member)
-            .episode(episode)
-            .build();
+                .contentStatus(ContentStatus.NORMAL)
+                .creatorName(generateNewCreatorName(member, episode))
+                .content(episodeCommentCreateRequest.getContent())
+                .member(member)
+                .episode(episode)
+                .build();
     }
 
     private String generateNewCreatorName(Member member, Episode episode) {
-        Optional<EpisodeComment> episodeComment = episodeCommentRepository.findFirstByMemberIdAndEpisodeId(
-            member.getId(), episode.getId());
+        Optional<EpisodeComment> episodeComment =
+                episodeCommentRepository.findFirstByMemberIdAndEpisodeId(
+                        member.getId(), episode.getId());
         if (episodeComment.isPresent()) {
             return episodeComment.get().getCreatorName();
         }
@@ -81,5 +87,4 @@ public class EpisodeCommentService {
     private long getDistinctMemberCount(Long episodeId) {
         return episodeCommentRepository.countDistinctMembersByEpisode(episodeId) + 1;
     }
-
 }
