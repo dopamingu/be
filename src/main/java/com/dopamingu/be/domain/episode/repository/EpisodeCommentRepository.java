@@ -10,7 +10,7 @@ public interface EpisodeCommentRepository extends JpaRepository<EpisodeComment, 
 
     Optional<EpisodeComment> findFirstByMemberIdAndEpisodeId(Long memberId, Long episodeId);
 
-    @Query("SELECT COUNT(DISTINCT ec.member.id) FROM EpisodeComment ec WHERE ec.episode.id = :episodeId")
+    @Query(
+            "SELECT COUNT(DISTINCT ec.member.id) FROM EpisodeComment ec WHERE ec.episode.id = :episodeId")
     long countDistinctMembersByEpisode(@Param("episodeId") Long episodeId);
-
 }
