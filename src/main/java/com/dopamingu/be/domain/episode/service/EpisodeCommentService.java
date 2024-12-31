@@ -20,6 +20,8 @@ public class EpisodeCommentService {
     private final EpisodeCommentRepository episodeCommentRepository;
     private final EpisodeRepository episodeRepository;
     private final MemberUtil memberUtil;
+    private static final String EPISODE_CREATOR_NAME = "작성자";
+    private static final String PREFIX_CREATOR_NAME = "익명";
 
     public EpisodeCommentService(
             EpisodeCommentRepository episodeCommentRepository,
@@ -75,13 +77,18 @@ public class EpisodeCommentService {
     }
 
     private String generateNewCreatorName(Member member, Episode episode) {
+        if (episode.getMember().equals(member)) {
+
+            return EPISODE_CREATOR_NAME;
+        }
         Optional<EpisodeComment> episodeComment =
                 episodeCommentRepository.findFirstByMemberIdAndEpisodeId(
                         member.getId(), episode.getId());
+
         if (episodeComment.isPresent()) {
             return episodeComment.get().getCreatorName();
         }
-        return "익명 " + getDistinctMemberCount(episode.getId());
+        return PREFIX_CREATOR_NAME + getDistinctMemberCount(episode.getId());
     }
 
     private long getDistinctMemberCount(Long episodeId) {
