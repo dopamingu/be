@@ -4,6 +4,7 @@ import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeComment;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.episode.repository.EpisodeCommentRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
 import com.dopamingu.be.domain.global.error.exception.CustomException;
@@ -13,8 +14,10 @@ import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class EpisodeCommentService {
 
     private final EpisodeCommentRepository episodeCommentRepository;
@@ -50,6 +53,26 @@ public class EpisodeCommentService {
         return episodeComment.getId();
     }
 
+    public Long updateEpisodeComment(
+            Long episodeId,
+            Long episodeCommentId,
+            EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // Episode 확인
+        Episode episode = getEpisode(episodeId);
+
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+
+        // 내용 변경
+        episodeComment.updateEpisodeComment(episodeCommentUpdateRequest);
+
+        return episodeComment.getId();
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
@@ -61,6 +84,12 @@ public class EpisodeCommentService {
         return episodeRepository
                 .findById(episodeId)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+    }
+
+    private EpisodeComment getEpisodeComment(Long episodeId) {
+        return episodeCommentRepository
+                .findByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
     private EpisodeComment ofEpisodeCommentCreateRequest(
