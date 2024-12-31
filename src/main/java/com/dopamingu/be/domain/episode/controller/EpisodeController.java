@@ -96,7 +96,7 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     @DeleteMapping("/{episodeId}/comments/{episodeCommentId}")
     public ResponseEntity<Void> deleteEpisodeComment(
-        @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
     }
