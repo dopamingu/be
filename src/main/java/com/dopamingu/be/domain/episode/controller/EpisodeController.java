@@ -2,6 +2,7 @@ package com.dopamingu.be.domain.episode.controller;
 
 import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
@@ -82,5 +83,21 @@ public class EpisodeController implements EpisodeControllerDocs {
             @PathVariable Long episodeId,
             @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
         return episodeCommentService.createEpisodeComment(episodeId, episodeCommentCreateRequest);
+    }
+
+    @PatchMapping("/{episodeId}/comments/{episodeCommentId}")
+    public Long updateEpisodeComment(
+            @PathVariable Long episodeId,
+            @PathVariable Long episodeCommentId,
+            @Valid @RequestBody EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+        return episodeCommentService.updateEpisodeComment(
+                episodeId, episodeCommentId, episodeCommentUpdateRequest);
+    }
+
+    @DeleteMapping("/{episodeId}/comments/{episodeCommentId}")
+    public ResponseEntity<Void> deleteEpisodeComment(
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+        episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
+        return ResponseEntity.noContent().build();
     }
 }
