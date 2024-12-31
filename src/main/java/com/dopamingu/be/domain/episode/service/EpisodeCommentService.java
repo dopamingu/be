@@ -92,6 +92,28 @@ public class EpisodeCommentService {
         episodeComment.deleteEpisodeComment();
     }
 
+    public Long createEpisodeSubComment(
+            Long episodeId,
+            Long episodeCommentId,
+            EpisodeCommentCreateRequest episodeCommentCreateRequest) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // Episode 확인
+        Episode episode = getEpisode(episodeId);
+
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+
+        EpisodeComment episodeSubComment =
+                episodeCommentRepository.save(
+                        buildSubComment(
+                                episodeCommentCreateRequest, member, episode, episodeComment));
+
+        return episodeSubComment.getId();
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
@@ -129,6 +151,22 @@ public class EpisodeCommentService {
                 .episode(episode)
                 .build();
     }
+
+    private EpisodeComment buildSubComment(
+            EpisodeCommentCreateRequest episodeCommentCreateRequest,
+            Member member,
+            Episode episode,
+            EpisodeComment episodeComment) {
+        return EpisodeComment.builder()
+                .contentStatus(ContentStatus.NORMAL)
+                .creatorName(generateNewCreatorName(member, episode))
+                .content(episodeCommentCreateRequest.getContent())
+                .member(member)
+                .episode(episode)
+                .parent(episodeComment)
+                .build();
+    }
+    ;
 
     private String generateNewCreatorName(Member member, Episode episode) {
         if (episode.getMember().equals(member)) {
