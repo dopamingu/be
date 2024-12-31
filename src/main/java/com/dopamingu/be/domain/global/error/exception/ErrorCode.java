@@ -17,6 +17,8 @@ public enum ErrorCode {
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "DP4013", "시큐리티 인증 정보를 찾을 수 없습니다."),
     MISSING_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "DP4014", "토큰 정보가 존재하지 않습니다."),
 
+    FORBIDDEN(HttpStatus.FORBIDDEN, "DP4030", "해당 작업을 할 권한이 없습니다."),
+
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4040", "해당 회원을 찾을 수 없습니다."),
     EPISODE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4041", "해당 에피소드를 찾을 수 없습니다."),
     EPISODE_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4042", "좋아요를 한 적 없는 에피소드입니다."),

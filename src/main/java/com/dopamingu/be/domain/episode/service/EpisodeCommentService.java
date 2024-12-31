@@ -75,6 +75,23 @@ public class EpisodeCommentService {
         return episodeComment.getId();
     }
 
+    public void deleteEpisodeComment(Long episodeId, Long episodeCommentId) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // Episode 확인
+        Episode episode = getEpisode(episodeId);
+
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+
+        checkRequestorIsCreator(episodeComment, member);
+
+        // 삭제 처리
+        episodeComment.deleteEpisodeComment();
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
