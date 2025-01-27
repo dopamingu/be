@@ -109,4 +109,24 @@ public class EpisodeController implements EpisodeControllerDocs {
         return episodeCommentService.createEpisodeSubComment(
                 episodeId, episodeCommentId, episodeCommentCreateRequest);
     }
+
+    @PatchMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
+    public Long updateEpisodeSubComment(
+        @PathVariable Long episodeId,
+        @PathVariable Long episodeCommentId,
+        @PathVariable Long episodeSubCommentId,
+        @Valid @RequestBody EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+        return episodeCommentService.updateEpisodeSubComment(
+            episodeId, episodeCommentId, episodeSubCommentId, episodeCommentUpdateRequest);
+    }
+
+    @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
+    public ResponseEntity<Void> deleteEpisodeSubComment(
+        @PathVariable Long episodeId,
+        @PathVariable Long episodeCommentId,
+        @PathVariable Long episodeSubCommentId) {
+        episodeCommentService.deleteEpisodeSubComment(
+            episodeId, episodeCommentId, episodeSubCommentId);
+        return ResponseEntity.noContent().build();
+    }
 }

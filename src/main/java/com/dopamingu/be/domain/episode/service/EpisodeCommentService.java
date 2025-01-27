@@ -114,6 +114,52 @@ public class EpisodeCommentService {
         return episodeSubComment.getId();
     }
 
+    public Long updateEpisodeSubComment(
+        Long episodeId,
+        Long episodeCommentId,
+        Long episodeSubCommentId,
+        EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // Episode 확인
+        Episode episode = getEpisode(episodeId);
+
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+
+        // EpisodeSubComment 확인
+        EpisodeComment episodeSubComment = getEpisodeComment(episodeSubCommentId);
+
+        checkRequestorIsCreator(episodeSubComment, member);
+
+        // 내용 변경
+        episodeSubComment.updateEpisodeComment(episodeCommentUpdateRequest);
+
+        return episodeComment.getId();
+    }
+
+    public void deleteEpisodeSubComment(
+        Long episodeId, Long episodeCommentId, Long episodeSubCommentId) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+        checkMemberStatus(member);
+
+        // Episode 확인
+        Episode episode = getEpisode(episodeId);
+
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+
+        // EpisodeSubComment 확인
+        EpisodeComment episodeSubComment = getEpisodeComment(episodeSubCommentId);
+
+        checkRequestorIsCreator(episodeSubComment, member);
+        // 삭제 처리
+        episodeSubComment.deleteEpisodeComment();
+    }
+
     private void checkMemberStatus(Member member) {
         // 현재 접속한 회원의 유효성 확인
         if (member.getStatus().equals(MemberStatus.DELETED)) {
@@ -127,9 +173,9 @@ public class EpisodeCommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
-    private EpisodeComment getEpisodeComment(Long episodeId) {
+    private EpisodeComment getEpisodeComment(Long epicodeCommentId) {
         return episodeCommentRepository
-                .findByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+            .findByIdAndContentStatus(epicodeCommentId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
@@ -166,7 +212,6 @@ public class EpisodeCommentService {
                 .parent(episodeComment)
                 .build();
     }
-    ;
 
     private String generateNewCreatorName(Member member, Episode episode) {
         if (episode.getMember().equals(member)) {
