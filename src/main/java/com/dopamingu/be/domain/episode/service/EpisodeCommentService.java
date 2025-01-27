@@ -115,10 +115,10 @@ public class EpisodeCommentService {
     }
 
     public Long updateEpisodeSubComment(
-        Long episodeId,
-        Long episodeCommentId,
-        Long episodeSubCommentId,
-        EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+            Long episodeId,
+            Long episodeCommentId,
+            Long episodeSubCommentId,
+            EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
@@ -130,8 +130,8 @@ public class EpisodeCommentService {
         EpisodeComment episodeComment = checkEpisodeCommentId(episodeCommentId);
 
         // EpisodeSubComment 확인
-        EpisodeComment episodeSubComment = getEpisodeSubComment(episodeSubCommentId, episode,
-            episodeComment);
+        EpisodeComment episodeSubComment =
+                getEpisodeSubComment(episodeSubCommentId, episode, episodeComment);
 
         checkRequestorIsCreator(episodeSubComment, member);
 
@@ -142,7 +142,7 @@ public class EpisodeCommentService {
     }
 
     public void deleteEpisodeSubComment(
-        Long episodeId, Long episodeCommentId, Long episodeSubCommentId) {
+            Long episodeId, Long episodeCommentId, Long episodeSubCommentId) {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
@@ -154,8 +154,8 @@ public class EpisodeCommentService {
         EpisodeComment episodeComment = checkEpisodeCommentId(episodeCommentId);
 
         // EpisodeSubComment 확인
-        EpisodeComment episodeSubComment = getEpisodeSubComment(episodeSubCommentId, episode,
-            episodeComment);
+        EpisodeComment episodeSubComment =
+                getEpisodeSubComment(episodeSubCommentId, episode, episodeComment);
 
         checkRequestorIsCreator(episodeSubComment, member);
         // 삭제 처리
@@ -177,22 +177,22 @@ public class EpisodeCommentService {
 
     private EpisodeComment getEpisodeComment(Long epicodeCommentId) {
         return episodeCommentRepository
-            .findByIdAndContentStatus(epicodeCommentId, ContentStatus.NORMAL)
+                .findByIdAndContentStatus(epicodeCommentId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
     private EpisodeComment checkEpisodeCommentId(Long episodeCommentId) {
         return episodeCommentRepository
-            .findById(episodeCommentId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
+                .findById(episodeCommentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
-    private EpisodeComment getEpisodeSubComment(Long episodeSubCommentId, Episode episode,
-        EpisodeComment episodeComment) {
+    private EpisodeComment getEpisodeSubComment(
+            Long episodeSubCommentId, Episode episode, EpisodeComment episodeComment) {
         return episodeCommentRepository
-            .findByIdAndContentStatusAndEpisodeAndParent(episodeSubCommentId, ContentStatus.NORMAL,
-                episode, episodeComment)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
+                .findByIdAndContentStatusAndEpisodeAndParent(
+                        episodeSubCommentId, ContentStatus.NORMAL, episode, episodeComment)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
     private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
