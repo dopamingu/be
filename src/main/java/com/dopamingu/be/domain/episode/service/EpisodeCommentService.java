@@ -45,6 +45,21 @@ public class EpisodeCommentService {
         // Episode 확인
         Episode episode = getEpisode(episodeId);
 
+        // 댓글인지 대댓글인지 확인
+        Long parentId = episodeCommentCreateRequest.getParentId();
+        if (parentId != null) {
+            // EpisodeComment 확인
+            EpisodeComment episodeComment = checkEpisodeCommentId(parentId);
+
+            EpisodeComment episodeSubComment =
+                episodeCommentRepository.save(
+                    buildSubComment(
+                        episodeCommentCreateRequest, member, episode, episodeComment));
+
+            return episodeSubComment.getId();
+
+        }
+
         EpisodeComment episodeComment =
                 episodeCommentRepository.save(
                         ofEpisodeCommentCreateRequest(
@@ -90,28 +105,6 @@ public class EpisodeCommentService {
 
         // 삭제 처리
         episodeComment.deleteEpisodeComment();
-    }
-
-    public Long createEpisodeSubComment(
-            Long episodeId,
-            Long episodeCommentId,
-            EpisodeCommentCreateRequest episodeCommentCreateRequest) {
-        // 회원 확인
-        Member member = memberUtil.getCurrentMember();
-        checkMemberStatus(member);
-
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
-
-        EpisodeComment episodeSubComment =
-                episodeCommentRepository.save(
-                        buildSubComment(
-                                episodeCommentCreateRequest, member, episode, episodeComment));
-
-        return episodeSubComment.getId();
     }
 
     public Long updateEpisodeSubComment(

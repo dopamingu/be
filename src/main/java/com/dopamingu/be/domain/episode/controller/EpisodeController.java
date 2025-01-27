@@ -101,14 +101,6 @@ public class EpisodeController implements EpisodeControllerDocs {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{episodeId}/comments/{episodeCommentId}")
-    public Long createEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
-        return episodeCommentService.createEpisodeSubComment(
-                episodeId, episodeCommentId, episodeCommentCreateRequest);
-    }
 
     @PatchMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
     public Long updateEpisodeSubComment(
