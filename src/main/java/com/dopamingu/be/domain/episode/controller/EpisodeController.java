@@ -102,15 +102,6 @@ public class EpisodeController implements EpisodeControllerDocs {
     }
 
 
-    @PatchMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
-    public Long updateEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @PathVariable Long episodeSubCommentId,
-            @Valid @RequestBody EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
-        return episodeCommentService.updateEpisodeSubComment(
-                episodeId, episodeCommentId, episodeSubCommentId, episodeCommentUpdateRequest);
-    }
 
     @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
     public ResponseEntity<Void> deleteEpisodeSubComment(

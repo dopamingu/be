@@ -79,15 +79,11 @@ public class EpisodeCommentService {
         // Episode 확인
         Episode episode = getEpisode(episodeId);
 
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+        if (isSubComment(episodeCommentUpdateRequest)) {
+            return updateSubComment(episodeCommentId, episodeCommentUpdateRequest, episode, member);
+        }
 
-        checkRequestorIsCreator(episodeComment, member);
-
-        // 내용 변경
-        episodeComment.updateEpisodeComment(episodeCommentUpdateRequest);
-
-        return episodeComment.getId();
+        return updateMainComment(episodeCommentId, episodeCommentUpdateRequest, member);
     }
 
     public void deleteEpisodeComment(Long episodeId, Long episodeCommentId) {
@@ -107,32 +103,6 @@ public class EpisodeCommentService {
         episodeComment.deleteEpisodeComment();
     }
 
-    public Long updateEpisodeSubComment(
-            Long episodeId,
-            Long episodeCommentId,
-            Long episodeSubCommentId,
-            EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
-        // 회원 확인
-        Member member = memberUtil.getCurrentMember();
-        checkMemberStatus(member);
-
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = checkEpisodeCommentId(episodeCommentId);
-
-        // EpisodeSubComment 확인
-        EpisodeComment episodeSubComment =
-                getEpisodeSubComment(episodeSubCommentId, episode, episodeComment);
-
-        checkRequestorIsCreator(episodeSubComment, member);
-
-        // 내용 변경
-        episodeSubComment.updateEpisodeComment(episodeCommentUpdateRequest);
-
-        return episodeSubComment.getId();
-    }
 
     public void deleteEpisodeSubComment(
             Long episodeId, Long episodeCommentId, Long episodeSubCommentId) {
@@ -180,6 +150,28 @@ public class EpisodeCommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
+    private boolean isSubComment(EpisodeCommentUpdateRequest updateRequest) {
+        return updateRequest.getParentId() != null;
+    }
+
+
+    private Long updateSubComment(Long episodeCommentId,
+        EpisodeCommentUpdateRequest episodeCommentUpdateRequest, Episode episode, Member member) {
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = checkEpisodeCommentId(
+            episodeCommentUpdateRequest.getParentId());
+
+        // EpisodeSubComment 확인
+        EpisodeComment episodeSubComment =
+            getEpisodeSubComment(episodeCommentId, episode, episodeComment);
+
+        checkRequestorIsCreator(episodeSubComment, member);
+
+        // 내용 변경
+        episodeSubComment.updateCommentContent(episodeCommentUpdateRequest);
+        return episodeCommentId;
+    }
+
     private EpisodeComment getEpisodeSubComment(
             Long episodeSubCommentId, Episode episode, EpisodeComment episodeComment) {
         return episodeCommentRepository
@@ -187,6 +179,19 @@ public class EpisodeCommentService {
                         episodeSubCommentId, ContentStatus.NORMAL, episode, episodeComment)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
+
+    private Long updateMainComment(Long episodeCommentId,
+        EpisodeCommentUpdateRequest episodeCommentUpdateRequest, Member member) {
+        // EpisodeComment 확인
+        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
+        checkRequestorIsCreator(episodeComment, member);
+
+        // 내용 변경
+        episodeComment.updateCommentContent(episodeCommentUpdateRequest);
+
+        return episodeComment.getId();
+    }
+
 
     private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
         if (!episodeComment.getMember().equals(member)) {
