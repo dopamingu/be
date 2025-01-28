@@ -48,14 +48,13 @@ public class EpisodeCommentService {
         // ParentComment 확인
         EpisodeComment parentComment = null;
         if (episodeCommentCreateRequest.getParentId() != null) {
-            parentComment = getValidParentComment(
-                episodeCommentCreateRequest.getParentId());
+            parentComment = getValidParentComment(episodeCommentCreateRequest.getParentId());
         }
 
         EpisodeComment episodeComment =
                 episodeCommentRepository.save(
                         ofEpisodeCommentCreateRequest(
-                            episodeCommentCreateRequest, member, episode, parentComment));
+                                episodeCommentCreateRequest, member, episode, parentComment));
 
         return episodeComment.getId();
     }
@@ -68,8 +67,8 @@ public class EpisodeCommentService {
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
 
-        EpisodeComment episodeComment = getEpisodeCommentForUpdate(episodeId, episodeCommentId,
-            member);
+        EpisodeComment episodeComment =
+                getEpisodeCommentForUpdate(episodeId, episodeCommentId, member);
         episodeComment.updateCommentContent(episodeCommentUpdateRequest);
 
         return episodeCommentId;
@@ -81,8 +80,8 @@ public class EpisodeCommentService {
         checkMemberStatus(member);
 
         // Episode 확인
-        EpisodeComment episodeComment = getEpisodeCommentForUpdate(episodeId, episodeCommentId,
-            member);
+        EpisodeComment episodeComment =
+                getEpisodeCommentForUpdate(episodeId, episodeCommentId, member);
 
         // 삭제 처리
         episodeComment.deleteEpisodeComment();
@@ -92,14 +91,14 @@ public class EpisodeCommentService {
             EpisodeCommentCreateRequest episodeCommentCreateRequest,
             Member member,
             Episode episode,
-        EpisodeComment parentComment) {
+            EpisodeComment parentComment) {
         return EpisodeComment.builder()
                 .contentStatus(ContentStatus.NORMAL)
                 .creatorName(generateNewCreatorName(member, episode))
                 .content(episodeCommentCreateRequest.getContent())
                 .member(member)
                 .episode(episode)
-            .parent(parentComment)
+                .parent(parentComment)
                 .build();
     }
 
@@ -123,8 +122,7 @@ public class EpisodeCommentService {
     }
 
     /**
-     * ----------------------------------------------
-     * 아래부터는 중복되는 검증 로직을 모아둔 private 메서드들
+     * ---------------------------------------------- 아래부터는 중복되는 검증 로직을 모아둔 private 메서드들
      * ----------------------------------------------
      */
     private void checkMemberStatus(Member member) {
@@ -135,31 +133,29 @@ public class EpisodeCommentService {
     }
 
     private Episode getValidEpisode(Long episodeId) {
-        return episodeRepository.findById(episodeId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        return episodeRepository
+                .findById(episodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
     private EpisodeComment getValidParentComment(Long episodeCommentId) {
-        return episodeCommentRepository.findById(episodeCommentId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+        return episodeCommentRepository
+                .findById(episodeCommentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
     /**
-     * 댓글 수정/삭제 시 필요한 "공통 검증"을 담당하는 메서드
-     * - episodeId로 Episode를 찾고
-     * - commentId로 댓글을 찾은 뒤
-     * - 댓글이 해당 episode에 속해 있는지
-     * - 이미 삭제(status=DELETED)된 댓글인지
-     * - 작성자(writer)와 현재 사용자와 동일한지
+     * 댓글 수정/삭제 시 필요한 "공통 검증"을 담당하는 메서드 - episodeId로 Episode를 찾고 - commentId로 댓글을 찾은 뒤 - 댓글이 해당
+     * episode에 속해 있는지 - 이미 삭제(status=DELETED)된 댓글인지 - 작성자(writer)와 현재 사용자와 동일한지
      */
-
-    private EpisodeComment getEpisodeCommentForUpdate(Long episodeId, Long commentId,
-        Member creator) {
+    private EpisodeComment getEpisodeCommentForUpdate(
+            Long episodeId, Long commentId, Member creator) {
         // (1) 댓글 조회
-        EpisodeComment comment = episodeCommentRepository.findById(commentId)
-            .orElseThrow(() -> new CustomException(
-                ErrorCode.EPISODE_COMMENT_NOT_FOUND
-            ));
+        EpisodeComment comment =
+                episodeCommentRepository
+                        .findById(commentId)
+                        .orElseThrow(
+                                () -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
 
         // (2) 에피소드 일치 여부
         if (!comment.getEpisode().getId().equals(episodeId)) {
@@ -173,7 +169,6 @@ public class EpisodeCommentService {
         checkRequestorIsCreator(comment, creator);
 
         return comment;
-
     }
 
     private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
