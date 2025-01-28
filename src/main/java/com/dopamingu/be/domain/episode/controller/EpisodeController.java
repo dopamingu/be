@@ -100,16 +100,5 @@ public class EpisodeController implements EpisodeControllerDocs {
         episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
     }
-
-
-
-    @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
-    public ResponseEntity<Void> deleteEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @PathVariable Long episodeSubCommentId) {
-        episodeCommentService.deleteEpisodeSubComment(
-                episodeId, episodeCommentId, episodeSubCommentId);
-        return ResponseEntity.noContent().build();
-    }
 }
+
