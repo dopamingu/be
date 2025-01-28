@@ -74,7 +74,7 @@ public class EpisodeComment extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void updateEpisodeComment(EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
+    public void updateCommentContent(EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
         this.content = episodeCommentUpdateRequest.getContent();
     }
 

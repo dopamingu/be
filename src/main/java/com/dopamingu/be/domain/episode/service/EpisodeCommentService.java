@@ -43,12 +43,18 @@ public class EpisodeCommentService {
         checkMemberStatus(member);
 
         // Episode 확인
-        Episode episode = getEpisode(episodeId);
+        Episode episode = getValidEpisode(episodeId);
+
+        // ParentComment 확인
+        EpisodeComment parentComment = null;
+        if (episodeCommentCreateRequest.getParentId() != null) {
+            parentComment = getValidParentComment(episodeCommentCreateRequest.getParentId());
+        }
 
         EpisodeComment episodeComment =
                 episodeCommentRepository.save(
                         ofEpisodeCommentCreateRequest(
-                                episodeCommentCreateRequest, member, episode));
+                                episodeCommentCreateRequest, member, episode, parentComment));
 
         return episodeComment.getId();
     }
@@ -61,18 +67,11 @@ public class EpisodeCommentService {
         Member member = memberUtil.getCurrentMember();
         checkMemberStatus(member);
 
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
+        EpisodeComment episodeComment =
+                getEpisodeCommentForUpdate(episodeId, episodeCommentId, member);
+        episodeComment.updateCommentContent(episodeCommentUpdateRequest);
 
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
-
-        checkRequestorIsCreator(episodeComment, member);
-
-        // 내용 변경
-        episodeComment.updateEpisodeComment(episodeCommentUpdateRequest);
-
-        return episodeComment.getId();
+        return episodeCommentId;
     }
 
     public void deleteEpisodeComment(Long episodeId, Long episodeCommentId) {
@@ -81,151 +80,25 @@ public class EpisodeCommentService {
         checkMemberStatus(member);
 
         // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
-
-        checkRequestorIsCreator(episodeComment, member);
+        EpisodeComment episodeComment =
+                getEpisodeCommentForUpdate(episodeId, episodeCommentId, member);
 
         // 삭제 처리
         episodeComment.deleteEpisodeComment();
     }
 
-    public Long createEpisodeSubComment(
-            Long episodeId,
-            Long episodeCommentId,
-            EpisodeCommentCreateRequest episodeCommentCreateRequest) {
-        // 회원 확인
-        Member member = memberUtil.getCurrentMember();
-        checkMemberStatus(member);
-
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = getEpisodeComment(episodeCommentId);
-
-        EpisodeComment episodeSubComment =
-                episodeCommentRepository.save(
-                        buildSubComment(
-                                episodeCommentCreateRequest, member, episode, episodeComment));
-
-        return episodeSubComment.getId();
-    }
-
-    public Long updateEpisodeSubComment(
-            Long episodeId,
-            Long episodeCommentId,
-            Long episodeSubCommentId,
-            EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
-        // 회원 확인
-        Member member = memberUtil.getCurrentMember();
-        checkMemberStatus(member);
-
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = checkEpisodeCommentId(episodeCommentId);
-
-        // EpisodeSubComment 확인
-        EpisodeComment episodeSubComment =
-                getEpisodeSubComment(episodeSubCommentId, episode, episodeComment);
-
-        checkRequestorIsCreator(episodeSubComment, member);
-
-        // 내용 변경
-        episodeSubComment.updateEpisodeComment(episodeCommentUpdateRequest);
-
-        return episodeSubComment.getId();
-    }
-
-    public void deleteEpisodeSubComment(
-            Long episodeId, Long episodeCommentId, Long episodeSubCommentId) {
-        // 회원 확인
-        Member member = memberUtil.getCurrentMember();
-        checkMemberStatus(member);
-
-        // Episode 확인
-        Episode episode = getEpisode(episodeId);
-
-        // EpisodeComment 확인
-        EpisodeComment episodeComment = checkEpisodeCommentId(episodeCommentId);
-
-        // EpisodeSubComment 확인
-        EpisodeComment episodeSubComment =
-                getEpisodeSubComment(episodeSubCommentId, episode, episodeComment);
-
-        checkRequestorIsCreator(episodeSubComment, member);
-        // 삭제 처리
-        episodeSubComment.deleteEpisodeComment();
-    }
-
-    private void checkMemberStatus(Member member) {
-        // 현재 접속한 회원의 유효성 확인
-        if (member.getStatus().equals(MemberStatus.DELETED)) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
-        }
-    }
-
-    private Episode getEpisode(Long episodeId) {
-        return episodeRepository
-                .findById(episodeId)
-                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
-    }
-
-    private EpisodeComment getEpisodeComment(Long epicodeCommentId) {
-        return episodeCommentRepository
-                .findByIdAndContentStatus(epicodeCommentId, ContentStatus.NORMAL)
-                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
-    }
-
-    private EpisodeComment checkEpisodeCommentId(Long episodeCommentId) {
-        return episodeCommentRepository
-                .findById(episodeCommentId)
-                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
-    }
-
-    private EpisodeComment getEpisodeSubComment(
-            Long episodeSubCommentId, Episode episode, EpisodeComment episodeComment) {
-        return episodeCommentRepository
-                .findByIdAndContentStatusAndEpisodeAndParent(
-                        episodeSubCommentId, ContentStatus.NORMAL, episode, episodeComment)
-                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
-    }
-
-    private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
-        if (!episodeComment.getMember().equals(member)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
-        }
-    }
-
     private EpisodeComment ofEpisodeCommentCreateRequest(
             EpisodeCommentCreateRequest episodeCommentCreateRequest,
             Member member,
-            Episode episode) {
-        return EpisodeComment.builder()
-                .contentStatus(ContentStatus.NORMAL)
-                .creatorName(generateNewCreatorName(member, episode))
-                .content(episodeCommentCreateRequest.getContent())
-                .member(member)
-                .episode(episode)
-                .build();
-    }
-
-    private EpisodeComment buildSubComment(
-            EpisodeCommentCreateRequest episodeCommentCreateRequest,
-            Member member,
             Episode episode,
-            EpisodeComment episodeComment) {
+            EpisodeComment parentComment) {
         return EpisodeComment.builder()
                 .contentStatus(ContentStatus.NORMAL)
                 .creatorName(generateNewCreatorName(member, episode))
                 .content(episodeCommentCreateRequest.getContent())
                 .member(member)
                 .episode(episode)
-                .parent(episodeComment)
+                .parent(parentComment)
                 .build();
     }
 
@@ -246,5 +119,61 @@ public class EpisodeCommentService {
 
     private long getDistinctMemberCount(Long episodeId) {
         return episodeCommentRepository.countDistinctMembersByEpisode(episodeId) + 1;
+    }
+
+    /**
+     * ---------------------------------------------- 아래부터는 중복되는 검증 로직을 모아둔 private 메서드들
+     * ----------------------------------------------
+     */
+    private void checkMemberStatus(Member member) {
+        // 현재 접속한 회원의 유효성 확인
+        if (member.getStatus().equals(MemberStatus.DELETED)) {
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
+    private Episode getValidEpisode(Long episodeId) {
+        return episodeRepository
+                .findById(episodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+    }
+
+    private EpisodeComment getValidParentComment(Long episodeCommentId) {
+        return episodeCommentRepository
+                .findById(episodeCommentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+    }
+
+    /**
+     * 댓글 수정/삭제 시 필요한 "공통 검증"을 담당하는 메서드 - episodeId로 Episode를 찾고 - commentId로 댓글을 찾은 뒤 - 댓글이 해당
+     * episode에 속해 있는지 - 이미 삭제(status=DELETED)된 댓글인지 - 작성자(writer)와 현재 사용자와 동일한지
+     */
+    private EpisodeComment getEpisodeCommentForUpdate(
+            Long episodeId, Long commentId, Member creator) {
+        // (1) 댓글 조회
+        EpisodeComment comment =
+                episodeCommentRepository
+                        .findById(commentId)
+                        .orElseThrow(
+                                () -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
+
+        // (2) 에피소드 일치 여부
+        if (!comment.getEpisode().getId().equals(episodeId)) {
+            throw new CustomException(ErrorCode.EPISODE_COMMENT_RELATION_NOT_FOUND);
+        }
+        // (3) 상태 확인
+        if (comment.getContentStatus() == ContentStatus.DELETED) {
+            throw new CustomException(ErrorCode.RESOURCE_DELETED);
+        }
+        // (4) 작성자와 수정/삭제자와 일치 확인
+        checkRequestorIsCreator(comment, creator);
+
+        return comment;
+    }
+
+    private void checkRequestorIsCreator(EpisodeComment episodeComment, Member member) {
+        if (!episodeComment.getMember().equals(member)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }

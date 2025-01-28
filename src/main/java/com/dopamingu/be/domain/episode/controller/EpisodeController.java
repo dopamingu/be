@@ -35,12 +35,14 @@ public class EpisodeController implements EpisodeControllerDocs {
     private final EpisodeLikeService episodeLikeService;
     private final EpisodeCommentService episodeCommentService;
 
+    @Override
     @PostMapping
     public EpisodeCreateResponse createEpisode(
             @Valid @RequestBody EpisodeCreateRequest episodeCreateRequest) {
         return episodeService.createEpisode(episodeCreateRequest);
     }
 
+    @Override
     @PatchMapping("/{episodeId}")
     public EpisodeUpdateResponse updateEpisode(
             @PathVariable Long episodeId,
@@ -48,11 +50,13 @@ public class EpisodeController implements EpisodeControllerDocs {
         return episodeService.updateEpisode(episodeUpdateRequest, episodeId);
     }
 
+    @Override
     @DeleteMapping("/{episodeId}")
     public Long deleteEpisode(@PathVariable Long episodeId) {
         return episodeService.deleteEpisode(episodeId);
     }
 
+    @Override
     @GetMapping("")
     public Slice<EpisodeListGetResponse> getEpisodeList(
             @RequestParam(defaultValue = "1") int page,
@@ -62,22 +66,26 @@ public class EpisodeController implements EpisodeControllerDocs {
         return episodeService.getEpisodeList(page, size, sortBy, isAsc);
     }
 
+    @Override
     @GetMapping("/{episodeId}")
     public EpisodeDetailGetResponse getEpisodeDetail(@PathVariable Long episodeId) {
         return episodeService.getEpisodeDetail(episodeId);
     }
 
+    @Override
     @PostMapping("/{episodeId}/like")
     public Long likeEpisode(@PathVariable Long episodeId) {
         return episodeLikeService.likeEpisode(episodeId);
     }
 
+    @Override
     @PostMapping("/{episodeId}/unlike")
     public ResponseEntity<Void> unlikeEpisode(@PathVariable Long episodeId) {
         episodeLikeService.unlikeEpisode(episodeId);
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PostMapping("/{episodeId}/comments")
     public Long createEpisodeComment(
             @PathVariable Long episodeId,
@@ -85,6 +93,7 @@ public class EpisodeController implements EpisodeControllerDocs {
         return episodeCommentService.createEpisodeComment(episodeId, episodeCommentCreateRequest);
     }
 
+    @Override
     @PatchMapping("/{episodeId}/comments/{episodeCommentId}")
     public Long updateEpisodeComment(
             @PathVariable Long episodeId,
@@ -94,39 +103,11 @@ public class EpisodeController implements EpisodeControllerDocs {
                 episodeId, episodeCommentId, episodeCommentUpdateRequest);
     }
 
+    @Override
     @DeleteMapping("/{episodeId}/comments/{episodeCommentId}")
     public ResponseEntity<Void> deleteEpisodeComment(
             @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{episodeId}/comments/{episodeCommentId}")
-    public Long createEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @Valid @RequestBody EpisodeCommentCreateRequest episodeCommentCreateRequest) {
-        return episodeCommentService.createEpisodeSubComment(
-                episodeId, episodeCommentId, episodeCommentCreateRequest);
-    }
-
-    @PatchMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
-    public Long updateEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @PathVariable Long episodeSubCommentId,
-            @Valid @RequestBody EpisodeCommentUpdateRequest episodeCommentUpdateRequest) {
-        return episodeCommentService.updateEpisodeSubComment(
-                episodeId, episodeCommentId, episodeSubCommentId, episodeCommentUpdateRequest);
-    }
-
-    @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/subComments/{episodeSubCommentId}")
-    public ResponseEntity<Void> deleteEpisodeSubComment(
-            @PathVariable Long episodeId,
-            @PathVariable Long episodeCommentId,
-            @PathVariable Long episodeSubCommentId) {
-        episodeCommentService.deleteEpisodeSubComment(
-                episodeId, episodeCommentId, episodeSubCommentId);
         return ResponseEntity.noContent().build();
     }
 }

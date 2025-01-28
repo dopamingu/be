@@ -23,6 +23,8 @@ public enum ErrorCode {
     EPISODE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4041", "해당 에피소드를 찾을 수 없습니다."),
     EPISODE_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4042", "좋아요를 한 적 없는 에피소드입니다."),
     EPISODE_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4043", "존재하지 않는 댓글입니다."),
+    EPISODE_COMMENT_RELATION_NOT_FOUND(HttpStatus.NOT_FOUND, "DP404", "에피소드에 속한 댓글이 아닙니다."),
+    RESOURCE_DELETED(HttpStatus.NOT_FOUND, "DP405", "삭제된 자원입니다."),
 
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
 
