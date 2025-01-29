@@ -110,4 +110,10 @@ public class EpisodeController implements EpisodeControllerDocs {
         episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{episodeId}/comments/{episodeCommentId}/likes")
+    public Long likeEpisodeComment(
+        @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+        return episodeLikeService.likeEpisode(episodeId);
+    }
 }
