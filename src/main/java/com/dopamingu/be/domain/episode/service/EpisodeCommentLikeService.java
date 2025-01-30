@@ -59,7 +59,7 @@ public class EpisodeCommentLikeService {
                             episodeCommentLikeObj.recreateEpisodeCommentLike();
                             return episodeCommentLikeObj;
                         })
-            .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode));
+                .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode));
 
         // episodeComment 의 likes 숫자 +1
         episodeComment.increaseLikes();
