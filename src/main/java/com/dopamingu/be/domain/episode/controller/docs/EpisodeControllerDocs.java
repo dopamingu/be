@@ -78,4 +78,11 @@ public interface EpisodeControllerDocs {
         @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
         @Parameter(name = "episodeCommentId", description = "에피소드 댓글 ID") @PathVariable
         Long episodeCommentId);
+
+    @Operation(summary = "에피소드 댓글 좋아요", description = "특정 에피소드 댓글에 대한 좋아요를 생성합니다.")
+    @PostMapping("/{episodeId}/comments/{episodeCommentId}/likes")
+    public Long likeEpisodeComment(
+        @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
+        @Parameter(name = "episodeCommentId", description = "에피소드 댓글 ID") @PathVariable
+        Long episodeCommentId);
 }

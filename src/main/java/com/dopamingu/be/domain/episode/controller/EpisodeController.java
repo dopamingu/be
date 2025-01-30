@@ -113,6 +113,7 @@ public class EpisodeController implements EpisodeControllerDocs {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PostMapping("/{episodeId}/comments/{episodeCommentId}/likes")
     public Long likeEpisodeComment(
         @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
