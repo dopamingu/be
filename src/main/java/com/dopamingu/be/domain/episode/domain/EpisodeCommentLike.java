@@ -42,10 +42,16 @@ public class EpisodeCommentLike extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public EpisodeCommentLike(Long id, LikeStatus likeStatus, Episode episode, Member member) {
+    public EpisodeCommentLike(
+        Long id,
+        LikeStatus likeStatus,
+        Episode episode,
+        EpisodeComment episodeComment,
+        Member member) {
         this.id = id;
         this.likeStatus = likeStatus;
         this.episode = episode;
+        this.episodeComment = episodeComment;
         this.member = member;
     }
 
