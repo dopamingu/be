@@ -9,6 +9,7 @@ import com.dopamingu.be.domain.episode.dto.EpisodeDetailGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeListGetResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeUpdateResponse;
+import com.dopamingu.be.domain.episode.service.EpisodeCommentLikeService;
 import com.dopamingu.be.domain.episode.service.EpisodeCommentService;
 import com.dopamingu.be.domain.episode.service.EpisodeLikeService;
 import com.dopamingu.be.domain.episode.service.EpisodeService;
@@ -34,6 +35,7 @@ public class EpisodeController implements EpisodeControllerDocs {
     private final EpisodeService episodeService;
     private final EpisodeLikeService episodeLikeService;
     private final EpisodeCommentService episodeCommentService;
+    private final EpisodeCommentLikeService episodeCommentLikeService;
 
     @Override
     @PostMapping
@@ -108,6 +110,20 @@ public class EpisodeController implements EpisodeControllerDocs {
     public ResponseEntity<Void> deleteEpisodeComment(
             @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         episodeCommentService.deleteEpisodeComment(episodeId, episodeCommentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @PostMapping("/{episodeId}/comments/{episodeCommentId}/likes")
+    public Long likeEpisodeComment(
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+        return episodeCommentLikeService.likeEpisodeComment(episodeId, episodeCommentId);
+    }
+
+    @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/likes")
+    public ResponseEntity<Void> unlikeEpisodeComment(
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+        episodeCommentLikeService.unlikeEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
     }
 }

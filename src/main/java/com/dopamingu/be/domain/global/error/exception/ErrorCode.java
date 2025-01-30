@@ -25,11 +25,13 @@ public enum ErrorCode {
     EPISODE_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4043", "존재하지 않는 댓글입니다."),
     EPISODE_COMMENT_RELATION_NOT_FOUND(HttpStatus.NOT_FOUND, "DP404", "에피소드에 속한 댓글이 아닙니다."),
     RESOURCE_DELETED(HttpStatus.NOT_FOUND, "DP405", "삭제된 자원입니다."),
+    EPISODE_COMMENT_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "DP4046", "좋아요를 한 적 없는 댓글입니다."),
 
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "DP4050", "잘못된 HTTP 메서드입니다."),
 
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "DP4090", "중복된 닉네임입니다."),
     DUPLICATE_EPISODE_LIKE(HttpStatus.CONFLICT, "DP4091", "이미 좋아요를 한 게시물입니다."),
+    DUPLICATE_EPISODE_COMMENT_LIKE(HttpStatus.CONFLICT, "DP4092", "이미 좋아요를 한 댓글입니다."),
 
     UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "DP4220", "요청 데이터 형식이 올바르지 않습니다."),
 

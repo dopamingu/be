@@ -81,4 +81,12 @@ public class EpisodeComment extends BaseTimeEntity {
     public void deleteEpisodeComment() {
         this.contentStatus = ContentStatus.DELETED;
     }
+
+    public void increaseLikes() {
+        this.likes++;
+    }
+
+    public void decreaseLikes() {
+        this.likes--;
+    }
 }
