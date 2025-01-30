@@ -10,8 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface EpisodeCommentLikeRepository extends JpaRepository<EpisodeCommentLike, Long> {
 
     Optional<EpisodeCommentLike> findEpisodeCommentLikeByMemberAndEpisodeComment(
-        Member member, EpisodeComment episodeComment);
+            Member member, EpisodeComment episodeComment);
 
-    Optional<EpisodeCommentLike> findEpisodeCommentLikeByEpisode_IdAndEpisodeComment_IdAndMember_IdAndLikeStatus(
-        Long episodeId, Long episodeCommentId, Long memberId, LikeStatus likeStatus);
+    Optional<EpisodeCommentLike>
+            findEpisodeCommentLikeByEpisode_IdAndEpisodeComment_IdAndMember_IdAndLikeStatus(
+                    Long episodeId, Long episodeCommentId, Long memberId, LikeStatus likeStatus);
 }

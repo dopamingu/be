@@ -25,10 +25,10 @@ public class EpisodeCommentLikeService {
     private final MemberUtil memberUtil;
 
     public EpisodeCommentLikeService(
-        EpisodeCommentLikeRepository episodeCommentLikeRepository,
-        EpisodeCommentRepository episodeCommentRepository,
-        EpisodeRepository episodeRepository,
-        MemberUtil memberUtil) {
+            EpisodeCommentLikeRepository episodeCommentLikeRepository,
+            EpisodeCommentRepository episodeCommentRepository,
+            EpisodeRepository episodeRepository,
+            MemberUtil memberUtil) {
         this.episodeCommentLikeRepository = episodeCommentLikeRepository;
         this.episodeCommentRepository = episodeCommentRepository;
         this.episodeRepository = episodeRepository;
@@ -48,39 +48,39 @@ public class EpisodeCommentLikeService {
 
         // episodeCommentLike 가 있는지 검증
         Optional<EpisodeCommentLike> episodeCommentLike =
-            episodeCommentLikeRepository.findEpisodeCommentLikeByMemberAndEpisodeComment(
-                member, episodeComment);
+                episodeCommentLikeRepository.findEpisodeCommentLikeByMemberAndEpisodeComment(
+                        member, episodeComment);
 
         // episodeCommentLike DELETED 가 있는지 검증
         episodeCommentLike.ifPresent(this::checkEpisodeCommentLikeDuplicate);
         return episodeCommentLike
-            .map(
-                episodeCommentLikeObj -> {
-                    episodeCommentLikeObj.recreateEpisodeCommentLike();
-                    return episodeCommentLikeObj.getId();
-                })
-            .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode).getId());
+                .map(
+                        episodeCommentLikeObj -> {
+                            episodeCommentLikeObj.recreateEpisodeCommentLike();
+                            return episodeCommentLikeObj.getId();
+                        })
+                .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode).getId());
     }
 
     public void unlikeEpisodeComment(Long episodeId, Long episodeCommentId) {
         Member member = memberUtil.getCurrentMember();
 
         // 있으면, DELETED 로 상태를 변경합니다.
-        EpisodeCommentLike episodeCommentLike = getEpisodeCommentLike(episodeId, episodeCommentId,
-            member.getId());
+        EpisodeCommentLike episodeCommentLike =
+                getEpisodeCommentLike(episodeId, episodeCommentId, member.getId());
         episodeCommentLike.deleteEpisodeCommentLike();
     }
 
     private Episode getValidEpisode(Long episodeId) {
         return episodeRepository
-            .findById(episodeId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
+                .findById(episodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
     private EpisodeComment getValidEpisodeComment(Long episodeCommentId) {
         return episodeCommentRepository
-            .findById(episodeCommentId)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
+                .findById(episodeCommentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_NOT_FOUND));
     }
 
     private void checkEpisodeId(Long episodeId, EpisodeComment episodeComment) {
@@ -96,24 +96,22 @@ public class EpisodeCommentLikeService {
     }
 
     private EpisodeCommentLike createEpisodeCommentLike(
-        Member member, EpisodeComment episodeComment, Episode episode) {
+            Member member, EpisodeComment episodeComment, Episode episode) {
         EpisodeCommentLike episodeCommentLike =
-            EpisodeCommentLike.builder()
-                .episode(episode)
-                .episodeComment(episodeComment)
-                .member(member)
-                .likeStatus(LikeStatus.NORMAL)
-                .build();
+                EpisodeCommentLike.builder()
+                        .episode(episode)
+                        .episodeComment(episodeComment)
+                        .member(member)
+                        .likeStatus(LikeStatus.NORMAL)
+                        .build();
         return episodeCommentLikeRepository.save(episodeCommentLike);
     }
 
-    private EpisodeCommentLike getEpisodeCommentLike(Long episodeId,
-        Long episodeCommentId, Long memberId) {
+    private EpisodeCommentLike getEpisodeCommentLike(
+            Long episodeId, Long episodeCommentId, Long memberId) {
         return episodeCommentLikeRepository
-            .findEpisodeCommentLikeByEpisode_IdAndEpisodeComment_IdAndMember_IdAndLikeStatus(
-                episodeId,
-                episodeCommentId, memberId, LikeStatus.NORMAL)
-            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_LIKE_NOT_FOUND));
+                .findEpisodeCommentLikeByEpisode_IdAndEpisodeComment_IdAndMember_IdAndLikeStatus(
+                        episodeId, episodeCommentId, memberId, LikeStatus.NORMAL)
+                .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_LIKE_NOT_FOUND));
     }
-
 }

@@ -116,13 +116,13 @@ public class EpisodeController implements EpisodeControllerDocs {
     @Override
     @PostMapping("/{episodeId}/comments/{episodeCommentId}/likes")
     public Long likeEpisodeComment(
-        @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         return episodeCommentLikeService.likeEpisodeComment(episodeId, episodeCommentId);
     }
 
     @DeleteMapping("/{episodeId}/comments/{episodeCommentId}/likes")
     public ResponseEntity<Void> unlikeEpisodeComment(
-        @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
+            @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         episodeCommentLikeService.unlikeEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
     }
