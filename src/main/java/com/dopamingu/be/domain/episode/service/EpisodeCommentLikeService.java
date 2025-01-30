@@ -53,13 +53,18 @@ public class EpisodeCommentLikeService {
 
         // episodeCommentLike DELETED 가 있는지 검증
         episodeCommentLike.ifPresent(this::checkEpisodeCommentLikeDuplicate);
-        return episodeCommentLike
+        episodeCommentLike
                 .map(
                         episodeCommentLikeObj -> {
                             episodeCommentLikeObj.recreateEpisodeCommentLike();
-                            return episodeCommentLikeObj.getId();
+                            return episodeCommentLikeObj;
                         })
-                .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode).getId());
+            .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode));
+
+        // episodeComment 의 likes 숫자 +1
+        episodeComment.increaseLikes();
+
+        return episodeComment.getId();
     }
 
     public void unlikeEpisodeComment(Long episodeId, Long episodeCommentId) {
@@ -69,6 +74,10 @@ public class EpisodeCommentLikeService {
         EpisodeCommentLike episodeCommentLike =
                 getEpisodeCommentLike(episodeId, episodeCommentId, member.getId());
         episodeCommentLike.deleteEpisodeCommentLike();
+
+        // episodeComment 의 likes 숫자 -1
+        EpisodeComment episodeComment = episodeCommentLike.getEpisodeComment();
+        episodeComment.decreaseLikes();
     }
 
     private Episode getValidEpisode(Long episodeId) {
