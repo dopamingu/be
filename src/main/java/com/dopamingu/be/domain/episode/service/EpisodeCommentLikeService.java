@@ -62,6 +62,15 @@ public class EpisodeCommentLikeService {
             .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode).getId());
     }
 
+    public void unlikeEpisodeComment(Long episodeId, Long episodeCommentId) {
+        Member member = memberUtil.getCurrentMember();
+
+        // 있으면, DELETED 로 상태를 변경합니다.
+        EpisodeCommentLike episodeCommentLike = getEpisodeCommentLike(episodeId, episodeCommentId,
+            member.getId());
+        episodeCommentLike.deleteEpisodeCommentLike();
+    }
+
     private Episode getValidEpisode(Long episodeId) {
         return episodeRepository
             .findById(episodeId)
@@ -97,4 +106,14 @@ public class EpisodeCommentLikeService {
                 .build();
         return episodeCommentLikeRepository.save(episodeCommentLike);
     }
+
+    private EpisodeCommentLike getEpisodeCommentLike(Long episodeId,
+        Long episodeCommentId, Long memberId) {
+        return episodeCommentLikeRepository
+            .findEpisodeCommentLikeByEpisode_IdAndEpisodeComment_IdAndMember_IdAndLikeStatus(
+                episodeId,
+                episodeCommentId, memberId, LikeStatus.NORMAL)
+            .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_COMMENT_LIKE_NOT_FOUND));
+    }
+
 }
