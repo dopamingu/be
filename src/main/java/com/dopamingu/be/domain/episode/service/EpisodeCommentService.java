@@ -4,6 +4,7 @@ import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeComment;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentListResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.episode.repository.EpisodeCommentRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
@@ -13,6 +14,10 @@ import com.dopamingu.be.domain.global.util.MemberUtil;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.Optional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,6 +92,30 @@ public class EpisodeCommentService {
         episodeComment.deleteEpisodeComment();
     }
 
+    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(Long episodeId, int page,
+        int size, String sortBy, boolean isAsc) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+
+        // episode 상태 확인
+        Episode episode = getValidEpisode(episodeId);
+
+        // episode comment 만 먼저 찾기
+        Slice<EpisodeComment> comments = episodeCommentRepository.findAllByEpisodeIdAndParentIsNull(
+            getPageable(page, size, sortBy, isAsc), episode.getId());
+
+        // sub commment 조회가능
+
+        // parentId 없는 경우만 조회하기
+
+        // parnetId 로 넣기 
+
+        // episode subComment 묶어넣기
+        // 해당 유저의 like 여부 조회하기
+
+        return null;
+    }
+
     private EpisodeComment ofEpisodeCommentCreateRequest(
             EpisodeCommentCreateRequest episodeCommentCreateRequest,
             Member member,
@@ -134,7 +163,7 @@ public class EpisodeCommentService {
 
     private Episode getValidEpisode(Long episodeId) {
         return episodeRepository
-                .findById(episodeId)
+            .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
@@ -176,4 +205,11 @@ public class EpisodeCommentService {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
     }
+
+    private Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return PageRequest.of(page - 1, size, sort);
+    }
+
 }
