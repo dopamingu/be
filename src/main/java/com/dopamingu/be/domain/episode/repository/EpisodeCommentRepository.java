@@ -4,6 +4,8 @@ import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeComment;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +26,7 @@ public interface EpisodeCommentRepository extends JpaRepository<EpisodeComment, 
             ContentStatus contentStatus,
             Episode episode,
             EpisodeComment episodeComment);
+
+    Page<EpisodeComment> findAllByEpisodeIdAndParentIsNull(Pageable pageable, Long episodeId);
+
 }

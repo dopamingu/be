@@ -6,6 +6,7 @@ import com.dopamingu.be.domain.episode.domain.EpisodeComment;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentListResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
+import com.dopamingu.be.domain.episode.repository.EpisodeCommentLikeRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeCommentRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
 import com.dopamingu.be.domain.global.error.exception.CustomException;
@@ -14,6 +15,7 @@ import com.dopamingu.be.domain.global.util.MemberUtil;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EpisodeCommentService {
 
     private final EpisodeCommentRepository episodeCommentRepository;
+    private final EpisodeCommentLikeRepository episodeCommentLikeRepository;
     private final EpisodeRepository episodeRepository;
     private final MemberUtil memberUtil;
     private static final String EPISODE_CREATOR_NAME = "작성자";
@@ -33,9 +36,11 @@ public class EpisodeCommentService {
 
     public EpisodeCommentService(
             EpisodeCommentRepository episodeCommentRepository,
+        EpisodeCommentLikeRepository episodeCommentLikeRepository,
             EpisodeRepository episodeRepository,
             MemberUtil memberUtil) {
         this.episodeCommentRepository = episodeCommentRepository;
+        this.episodeCommentLikeRepository = episodeCommentLikeRepository;
         this.episodeRepository = episodeRepository;
         this.memberUtil = memberUtil;
     }
@@ -104,16 +109,25 @@ public class EpisodeCommentService {
         Slice<EpisodeComment> comments = episodeCommentRepository.findAllByEpisodeIdAndParentIsNull(
             getPageable(page, size, sortBy, isAsc), episode.getId());
 
-        // sub commment 조회가능
+        Slice<EpisodeCommentListResponse> commentListResponses = comments.map(
+            EpisodeCommentListResponse::fromEntity);
 
-        // parentId 없는 경우만 조회하기
-
-        // parnetId 로 넣기 
-
-        // episode subComment 묶어넣기
-        // 해당 유저의 like 여부 조회하기
-
-        return null;
+        // 회원이 있는 경우에만 좋아요 여부 업데이트
+        if (member != null) {
+            Set<Long> episdoeLikeIdSet = episodeCommentLikeRepository.findEpisodeCommentLikeIds(
+                episodeId, member.getId());
+            for (EpisodeCommentListResponse comment : commentListResponses) {
+                if (episdoeLikeIdSet.contains(comment.getId())) {
+                    comment.isLikedComment();
+                }
+                for (EpisodeCommentListResponse.EpisodeSubComment subComment : comment.getSubCommentList()) {
+                    if (episdoeLikeIdSet.contains(subComment.getId())) {
+                        subComment.isLikedSubComment();
+                    }
+                }
+            }
+        }
+        return commentListResponses;
     }
 
     private EpisodeComment ofEpisodeCommentCreateRequest(
