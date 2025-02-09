@@ -91,9 +91,9 @@ public interface EpisodeControllerDocs {
     @Operation(summary = "에피소드 댓글 조회", description = "특정 에피소드의 댓글을 조회합니다.")
     @GetMapping("/{episodeId}/comments")
     public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
-        @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-        @RequestParam(required = false, defaultValue = "false") boolean isAsc);
+            @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "false") boolean isAsc);
 }
