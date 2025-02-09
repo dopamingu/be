@@ -2,6 +2,7 @@ package com.dopamingu.be.domain.episode.controller;
 
 import com.dopamingu.be.domain.episode.controller.docs.EpisodeControllerDocs;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentListResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
@@ -125,5 +126,16 @@ public class EpisodeController implements EpisodeControllerDocs {
             @PathVariable Long episodeId, @PathVariable Long episodeCommentId) {
         episodeCommentLikeService.unlikeEpisodeComment(episodeId, episodeCommentId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @GetMapping("/{episodeId}/comments")
+    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
+            @PathVariable Long episodeId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
+        return episodeCommentService.getEpisodeCommentList(episodeId, page, size, sortBy, isAsc);
     }
 }

@@ -4,7 +4,9 @@ import com.dopamingu.be.domain.episode.domain.ContentStatus;
 import com.dopamingu.be.domain.episode.domain.Episode;
 import com.dopamingu.be.domain.episode.domain.EpisodeComment;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentListResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
+import com.dopamingu.be.domain.episode.repository.EpisodeCommentLikeRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeCommentRepository;
 import com.dopamingu.be.domain.episode.repository.EpisodeRepository;
 import com.dopamingu.be.domain.global.error.exception.CustomException;
@@ -13,6 +15,11 @@ import com.dopamingu.be.domain.global.util.MemberUtil;
 import com.dopamingu.be.domain.member.domain.Member;
 import com.dopamingu.be.domain.member.domain.MemberStatus;
 import java.util.Optional;
+import java.util.Set;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EpisodeCommentService {
 
     private final EpisodeCommentRepository episodeCommentRepository;
+    private final EpisodeCommentLikeRepository episodeCommentLikeRepository;
     private final EpisodeRepository episodeRepository;
     private final MemberUtil memberUtil;
     private static final String EPISODE_CREATOR_NAME = "작성자";
@@ -28,9 +36,11 @@ public class EpisodeCommentService {
 
     public EpisodeCommentService(
             EpisodeCommentRepository episodeCommentRepository,
+            EpisodeCommentLikeRepository episodeCommentLikeRepository,
             EpisodeRepository episodeRepository,
             MemberUtil memberUtil) {
         this.episodeCommentRepository = episodeCommentRepository;
+        this.episodeCommentLikeRepository = episodeCommentLikeRepository;
         this.episodeRepository = episodeRepository;
         this.memberUtil = memberUtil;
     }
@@ -87,6 +97,42 @@ public class EpisodeCommentService {
         episodeComment.deleteEpisodeComment();
     }
 
+    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
+            Long episodeId, int page, int size, String sortBy, boolean isAsc) {
+        // 회원 확인
+        Member member = memberUtil.getCurrentMember();
+
+        // episode 상태 확인
+        Episode episode = getValidEpisode(episodeId);
+
+        // episode comment 만 먼저 찾기
+        Slice<EpisodeComment> comments =
+                episodeCommentRepository.findAllByEpisodeIdAndParentIsNull(
+                        getPageable(page, size, sortBy, isAsc), episode.getId());
+
+        Slice<EpisodeCommentListResponse> commentListResponses =
+                comments.map(EpisodeCommentListResponse::fromEntity);
+
+        // 회원이 있는 경우에만 좋아요 여부 업데이트
+        if (member != null) {
+            Set<Long> episdoeLikeIdSet =
+                    episodeCommentLikeRepository.findEpisodeCommentLikeIds(
+                            episodeId, member.getId());
+            for (EpisodeCommentListResponse comment : commentListResponses) {
+                if (episdoeLikeIdSet.contains(comment.getId())) {
+                    comment.isLikedComment();
+                }
+                for (EpisodeCommentListResponse.EpisodeSubComment subComment :
+                        comment.getSubCommentList()) {
+                    if (episdoeLikeIdSet.contains(subComment.getId())) {
+                        subComment.isLikedSubComment();
+                    }
+                }
+            }
+        }
+        return commentListResponses;
+    }
+
     private EpisodeComment ofEpisodeCommentCreateRequest(
             EpisodeCommentCreateRequest episodeCommentCreateRequest,
             Member member,
@@ -134,7 +180,7 @@ public class EpisodeCommentService {
 
     private Episode getValidEpisode(Long episodeId) {
         return episodeRepository
-                .findById(episodeId)
+                .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
@@ -175,5 +221,11 @@ public class EpisodeCommentService {
         if (!episodeComment.getMember().equals(member)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
+    }
+
+    private Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return PageRequest.of(page - 1, size, sort);
     }
 }

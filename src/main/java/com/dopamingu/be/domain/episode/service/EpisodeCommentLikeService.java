@@ -62,7 +62,7 @@ public class EpisodeCommentLikeService {
                 .orElseGet(() -> createEpisodeCommentLike(member, episodeComment, episode));
 
         // episodeComment 의 likes 숫자 +1
-        episodeComment.increaseLikes();
+        episodeComment.increaseLikeCount();
 
         return episodeComment.getId();
     }
@@ -77,7 +77,7 @@ public class EpisodeCommentLikeService {
 
         // episodeComment 의 likes 숫자 -1
         EpisodeComment episodeComment = episodeCommentLike.getEpisodeComment();
-        episodeComment.decreaseLikes();
+        episodeComment.decreaseLikeCount();
     }
 
     private Episode getValidEpisode(Long episodeId) {

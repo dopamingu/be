@@ -47,8 +47,8 @@ public class EpisodeComment extends BaseTimeEntity {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<EpisodeComment> subComments = new ArrayList<>();
 
-    @Column(name = "likes")
-    private int likes = 0;
+    @Column(name = "like_count")
+    private Long likeCount = 0L;
 
     @ManyToOne
     @JoinColumn(name = "episode_id")
@@ -82,11 +82,11 @@ public class EpisodeComment extends BaseTimeEntity {
         this.contentStatus = ContentStatus.DELETED;
     }
 
-    public void increaseLikes() {
-        this.likes++;
+    public void increaseLikeCount() {
+        this.likeCount++;
     }
 
-    public void decreaseLikes() {
-        this.likes--;
+    public void decreaseLikeCount() {
+        this.likeCount--;
     }
 }
