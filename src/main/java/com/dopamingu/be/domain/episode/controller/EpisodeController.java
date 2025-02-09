@@ -130,11 +130,11 @@ public class EpisodeController implements EpisodeControllerDocs {
 
     @GetMapping("/{episodeId}/comments")
     public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
-        @PathVariable Long episodeId,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-        @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
+            @PathVariable Long episodeId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(required = false, defaultValue = "false") boolean isAsc) {
         return episodeCommentService.getEpisodeCommentList(episodeId, page, size, sortBy, isAsc);
     }
 }

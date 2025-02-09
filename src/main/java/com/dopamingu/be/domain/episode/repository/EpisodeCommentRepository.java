@@ -28,5 +28,4 @@ public interface EpisodeCommentRepository extends JpaRepository<EpisodeComment, 
             EpisodeComment episodeComment);
 
     Page<EpisodeComment> findAllByEpisodeIdAndParentIsNull(Pageable pageable, Long episodeId);
-
 }

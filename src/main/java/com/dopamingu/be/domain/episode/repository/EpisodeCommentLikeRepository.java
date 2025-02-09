@@ -20,9 +20,7 @@ public interface EpisodeCommentLikeRepository extends JpaRepository<EpisodeComme
                     Long episodeId, Long episodeCommentId, Long memberId, LikeStatus likeStatus);
 
     @Query(
-        "SELECT ecl.episodeComment.id FROM EpisodeCommentLike ecl WHERE ecl.episode.id = :episodeId and ecl.member.id = :memberId"
-    )
-    Set<Long> findEpisodeCommentLikeIds(@Param("episodeId") Long episodeId,
-        @Param("memberId") Long memberId);
-
+            "SELECT ecl.episodeComment.id FROM EpisodeCommentLike ecl WHERE ecl.episode.id = :episodeId and ecl.member.id = :memberId")
+    Set<Long> findEpisodeCommentLikeIds(
+            @Param("episodeId") Long episodeId, @Param("memberId") Long memberId);
 }

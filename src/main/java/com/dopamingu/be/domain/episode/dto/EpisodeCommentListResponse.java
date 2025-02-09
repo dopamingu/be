@@ -22,16 +22,17 @@ public class EpisodeCommentListResponse {
 
     public static EpisodeCommentListResponse fromEntity(EpisodeComment episodeComment) {
         return EpisodeCommentListResponse.builder()
-            .id(episodeComment.getId())
-            .creatorName(episodeComment.getCreatorName())
-            .contentStatus(episodeComment.getContentStatus())
-            .likeCount(episodeComment.getLikeCount())
-            .isLiked(false)
-            .subCommentList(episodeComment.getSubComments().stream()
-                .map(EpisodeSubComment::fromSubCommentEntity)
-                .toList())
-            .createdAt(episodeComment.getCreatedAt())
-            .build();
+                .id(episodeComment.getId())
+                .creatorName(episodeComment.getCreatorName())
+                .contentStatus(episodeComment.getContentStatus())
+                .likeCount(episodeComment.getLikeCount())
+                .isLiked(false)
+                .subCommentList(
+                        episodeComment.getSubComments().stream()
+                                .map(EpisodeSubComment::fromSubCommentEntity)
+                                .toList())
+                .createdAt(episodeComment.getCreatedAt())
+                .build();
     }
 
     public void isLikedComment() {
@@ -52,18 +53,17 @@ public class EpisodeCommentListResponse {
 
         public static EpisodeSubComment fromSubCommentEntity(EpisodeComment subComment) {
             return EpisodeSubComment.builder()
-                .id(subComment.getId())
-                .creatorName(subComment.getCreatorName())
-                .contentStatus(subComment.getContentStatus())
-                .likeCount(subComment.getLikeCount())
-                .isLiked(false)
-                .createdAt(subComment.getCreatedAt())
-                .build();
+                    .id(subComment.getId())
+                    .creatorName(subComment.getCreatorName())
+                    .contentStatus(subComment.getContentStatus())
+                    .likeCount(subComment.getLikeCount())
+                    .isLiked(false)
+                    .createdAt(subComment.getCreatedAt())
+                    .build();
         }
 
         public void isLikedSubComment() {
             this.isLiked = true;
         }
     }
-
 }

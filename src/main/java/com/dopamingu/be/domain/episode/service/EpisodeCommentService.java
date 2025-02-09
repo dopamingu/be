@@ -36,7 +36,7 @@ public class EpisodeCommentService {
 
     public EpisodeCommentService(
             EpisodeCommentRepository episodeCommentRepository,
-        EpisodeCommentLikeRepository episodeCommentLikeRepository,
+            EpisodeCommentLikeRepository episodeCommentLikeRepository,
             EpisodeRepository episodeRepository,
             MemberUtil memberUtil) {
         this.episodeCommentRepository = episodeCommentRepository;
@@ -97,8 +97,8 @@ public class EpisodeCommentService {
         episodeComment.deleteEpisodeComment();
     }
 
-    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(Long episodeId, int page,
-        int size, String sortBy, boolean isAsc) {
+    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
+            Long episodeId, int page, int size, String sortBy, boolean isAsc) {
         // 회원 확인
         Member member = memberUtil.getCurrentMember();
 
@@ -106,21 +106,24 @@ public class EpisodeCommentService {
         Episode episode = getValidEpisode(episodeId);
 
         // episode comment 만 먼저 찾기
-        Slice<EpisodeComment> comments = episodeCommentRepository.findAllByEpisodeIdAndParentIsNull(
-            getPageable(page, size, sortBy, isAsc), episode.getId());
+        Slice<EpisodeComment> comments =
+                episodeCommentRepository.findAllByEpisodeIdAndParentIsNull(
+                        getPageable(page, size, sortBy, isAsc), episode.getId());
 
-        Slice<EpisodeCommentListResponse> commentListResponses = comments.map(
-            EpisodeCommentListResponse::fromEntity);
+        Slice<EpisodeCommentListResponse> commentListResponses =
+                comments.map(EpisodeCommentListResponse::fromEntity);
 
         // 회원이 있는 경우에만 좋아요 여부 업데이트
         if (member != null) {
-            Set<Long> episdoeLikeIdSet = episodeCommentLikeRepository.findEpisodeCommentLikeIds(
-                episodeId, member.getId());
+            Set<Long> episdoeLikeIdSet =
+                    episodeCommentLikeRepository.findEpisodeCommentLikeIds(
+                            episodeId, member.getId());
             for (EpisodeCommentListResponse comment : commentListResponses) {
                 if (episdoeLikeIdSet.contains(comment.getId())) {
                     comment.isLikedComment();
                 }
-                for (EpisodeCommentListResponse.EpisodeSubComment subComment : comment.getSubCommentList()) {
+                for (EpisodeCommentListResponse.EpisodeSubComment subComment :
+                        comment.getSubCommentList()) {
                     if (episdoeLikeIdSet.contains(subComment.getId())) {
                         subComment.isLikedSubComment();
                     }
@@ -177,7 +180,7 @@ public class EpisodeCommentService {
 
     private Episode getValidEpisode(Long episodeId) {
         return episodeRepository
-            .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
+                .findEpisodeByIdAndContentStatus(episodeId, ContentStatus.NORMAL)
                 .orElseThrow(() -> new CustomException(ErrorCode.EPISODE_NOT_FOUND));
     }
 
@@ -225,5 +228,4 @@ public class EpisodeCommentService {
         Sort sort = Sort.by(direction, sortBy);
         return PageRequest.of(page - 1, size, sort);
     }
-
 }
