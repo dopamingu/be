@@ -1,6 +1,7 @@
 package com.dopamingu.be.domain.episode.controller.docs;
 
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentCreateRequest;
+import com.dopamingu.be.domain.episode.dto.EpisodeCommentListResponse;
 import com.dopamingu.be.domain.episode.dto.EpisodeCommentUpdateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateRequest;
 import com.dopamingu.be.domain.episode.dto.EpisodeCreateResponse;
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,4 +87,13 @@ public interface EpisodeControllerDocs {
             @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
             @Parameter(name = "episodeCommentId", description = "에피소드 댓글 ID") @PathVariable
                     Long episodeCommentId);
+
+    @Operation(summary = "에피소드 댓글 조회", description = "특정 에피소드의 댓글을 조회합니다.")
+    @GetMapping("/{episodeId}/comments")
+    public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
+        @Parameter(name = "episodeId", description = "에피소드 ID") @PathVariable Long episodeId,
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+        @RequestParam(required = false, defaultValue = "false") boolean isAsc);
 }

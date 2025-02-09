@@ -128,6 +128,7 @@ public class EpisodeController implements EpisodeControllerDocs {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @GetMapping("/{episodeId}/comments")
     public Slice<EpisodeCommentListResponse> getEpisodeCommentList(
             @PathVariable Long episodeId,
